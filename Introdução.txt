@@ -1,0 +1,13 @@
+A nossa plataforma foi desenvolvida para oferecer uma experiência interativa e intuitiva, permitindo que os utilizadores não apenas consumam conteúdo, mas também contribuam ativamente para a comunidade. Abaixo, destacamos as principais funcionalidades disponíveis:
+
+✅ Publicação de Artigos – Os utilizadores registados podem criar, escrever e publicar artigos com total controlo sobre o conteúdo. Podem adicionar títulos, texto e imagens, proporcionando uma apresentação completa das suas ideias e conhecimentos, seja em forma de tutoriais, análises ou opiniões.
+
+✅ Comentários – Cada artigo publicado pode ser comentado por outros utilizadores, permitindo a troca de ideias e a criação de discussões construtivas. Este espaço de interação incentiva o esclarecimento de dúvidas e a partilha de diferentes perspetivas sobre o conteúdo.
+
+✅ Sistema de Autenticação – Através de um sistema de login e registo, garantimos que cada utilizador tenha um perfil único e seguro. Este sistema não só permite o acesso personalizado aos artigos e interações, mas também assegura a privacidade e segurança dos dados de cada utilizador.
+
+✅ Pesquisa e Categorias – A plataforma permite que os artigos sejam filtrados por categorias ou pesquisados por palavras-chave, facilitando a navegação e a descoberta de conteúdos relacionados com temas específicos. Este recurso torna mais eficiente a experiência de quem busca artigos de interesse.
+
+✅ Página de Perfil – Cada utilizador tem uma página pessoal onde pode visualizar e gerir todos os artigos que publicou. Através desta página, é possível acompanhar a atividade na plataforma, editar ou eliminar conteúdos, e manter o controlo sobre a sua participação e interações.
+
+Essas funcionalidades visam proporcionar uma plataforma dinâmica e organizada, onde os utilizadores podem facilmente partilhar, explorar e interagir com conteúdos de forma eficiente e segura. A nossa missão é criar um ambiente colaborativo que estimule o crescimento da comunidade e a troca de conhecimentos.
