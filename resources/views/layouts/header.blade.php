@@ -5,7 +5,6 @@
 
         <!-- Navegação Desktop -->
         <nav class="hidden md:flex space-x-6">
-            <a href="{{ route('home') }}" class="hover:text-purple-400 transition">Início</a>
             <a href="{{ route('artigos') }}" class="hover:text-purple-400 transition">Artigos</a>
             <a href="{{ route('escrever') }}" class="hover:text-purple-400 transition">Escrever</a>
             <a href="{{ route('sobre') }}" class="hover:text-purple-400 transition">Sobre</a>

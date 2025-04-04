@@ -26,3 +26,8 @@ Route::get('/sobre', function () {
 Route::get('/login', function () {
     return view('login'); // Certifica-te de que tens auth/login.blade.php
 })->name('login');
+
+// Página de login
+Route::get('/register', function () {
+    return view('register'); // Certifica-te de que tens auth/register.blade.php
+})->name('register');

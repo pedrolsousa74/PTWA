@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Iniciar Sessão - Post.it')
+@section('title', 'Criar Conta - Post.it')
 
 @section('content')
 <div class="flex items-center justify-center min-h-screen relative">
@@ -10,11 +10,17 @@
 
     <div class="w-full max-w-md text-center text-white">
         <!-- Título -->
-        <h2 class="text-4xl font-extrabold mt-10">Iniciar sessão</h2>
+        <h2 class="text-4xl font-extrabold mt-10">Criar conta</h2>
 
         <!-- Formulário -->
-        <form method="POST" action="{{ route('login') }}" class="mt-6 space-y-4">
+        <form method="POST" action="{{ route('home') }}" class="mt-6 space-y-4">
             @csrf
+
+            <div class="text-left">
+                <label class="block text-sm font-medium">Nome</label>
+                <input type="text" name="name" required
+                    class="w-full px-4 py-3 mt-1 bg-gray-300 rounded-lg focus:outline-none text-black">
+            </div>
 
             <div class="text-left">
                 <label class="block text-sm font-medium">Email</label>
@@ -28,25 +34,19 @@
                     class="w-full px-4 py-3 mt-1 bg-gray-300 rounded-lg focus:outline-none text-black">
             </div>
 
-            <!-- Botão de Login -->
+            <!-- Botão de Criar Conta -->
             <button type="submit"
                 class="w-full mt-4 bg-gray-300 text-purple-700 font-bold py-3 rounded-lg hover:bg-gray-400 transition">
-                Entrar
+                Criar conta
             </button>
-        </form>
 
-        <!-- Botão "Continuar como leitor" -->
-        <button onclick="window.location.href='{{ route('home') }}'"
-            class="w-full mt-4 bg-gray-300 text-purple-700 font-bold py-3 rounded-lg hover:bg-gray-400 transition">
-            Continuar como leitor
-        </button>
-
-        <!-- Link para registo -->
+            <!-- Continuar como leitor -->
         <p class="mt-4">
-            <a href="{{ route('register') }}" class="text-white font-semibold hover:underline">
-                Ainda não tens conta?
+            <a href="{{ route('home') }}" class="text-white font-semibold hover:underline">
+                Continuar como leitor
             </a>
         </p>
+        </form>
     </div>
 </div>
 @endsection

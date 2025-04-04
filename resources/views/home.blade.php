@@ -12,7 +12,7 @@
                     Descobre as ideias que estão a inspirar o mundo.
                 </h2>
                 <p class="text-xl mb-6">Os melhores artigos do momento.</p>
-                <button class="bg-yellow-500 text-black px-6 py-3 rounded-md text-lg font-semibold hover:bg-yellow-600 transition">
+                <button onclick="window.location.href='{{ route('artigos') }}'" class="bg-yellow-500 text-black px-6 py-3 rounded-md text-lg font-semibold hover:bg-yellow-600 transition">
                     VER ARTIGOS
                 </button>
             </div>
@@ -67,7 +67,7 @@
             <h2 class="text-4xl font-bold mb-6 text-center leading-snug">
                 Cria conta e começa a publicar
             </h2>
-            <button class="bg-purple-700 text-white px-8 py-4 rounded-md text-lg font-semibold hover:bg-purple-800 transition">
+            <button onclick="window.location.href='{{ route('register') }}'" class="bg-purple-700 text-white px-8 py-4 rounded-md text-lg font-semibold hover:bg-purple-800 transition">
                 CRIAR CONTA
             </button>
         </div>
