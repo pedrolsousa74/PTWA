@@ -23,19 +23,27 @@
     </section>
 
     <!-- Tendências -->
-    <section class="tendencias py-16 px-6 bg-gray-800 text-white">
+    <section class="tendencias py-16 px-6 bg-purple-700 text-white">
         <div class="container mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-8">Tendências</h2>
+            <h2 class="text-5xl font-bold mb-10">Tendências</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-                @foreach (range(1, 4) as $i)
-                    <div class="card bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition text-black">
-                        <h3 class="text-xl font-semibold">Título do Artigo {{ $i }}</h3>
-                        <p class="text-gray-600 mt-2">Descrição do artigo {{ $i }}.</p>
+                @php
+                    $imagens = ['artigo1.jpg', 'artigo2.jpeg', 'artigo3.png', 'artigo4.jpeg'];
+                @endphp
+                @foreach ($imagens as $index => $imagem)
+                    <div class="bg-white text-gray-900 p-6 rounded-lg shadow-md hover:shadow-lg transition transform hover:-translate-y-2">
+                        <img src="{{ asset('icones/' . $imagem) }}" alt="Imagem do Artigo {{ $index + 1 }}" class="w-full h-40 object-cover rounded-md mb-4">
+                        <h3 class="text-xl font-semibold">Título do Artigo {{ $index + 1 }}</h3>
+                        <p class="text-gray-600 mt-2">Este é um pequeno resumo do artigo {{ $index + 1 }} para despertar interesse no leitor.</p>
+                        <a href="#" class="mt-4 inline-block bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-800 transition">
+                            Ler Mais
+                        </a>
                     </div>
                 @endforeach
             </div>
         </div>
     </section>
+
 
     <!-- Escrever Artigo -->
     <section class="escrever bg-purple-700 text-white py-16 px-6">
@@ -54,12 +62,19 @@
     </section>
 
     <!-- Criar Conta -->
-    <section class="criar-conta text-center py-16 bg-yellow-500 text-black">
-        <h2 class="text-3xl font-bold mb-4">Cria conta e começa a publicar</h2>
-        <button class="bg-purple-700 text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-purple-800 transition">
-            CRIAR CONTA
-        </button>
+    <section class="criar-conta text-center py-32 bg-purple-700 flex justify-center items-center">
+        <div class="bg-yellow-500 text-white w-full max-w-6xl h-72 rounded-lg shadow-lg flex flex-col justify-center items-center">
+            <h2 class="text-4xl font-bold mb-6 text-center leading-snug">
+                Cria conta e começa a publicar
+            </h2>
+            <button class="bg-purple-700 text-white px-8 py-4 rounded-md text-lg font-semibold hover:bg-purple-800 transition">
+                CRIAR CONTA
+            </button>
+        </div>
     </section>
+
+
+
 
     
 @endsection
