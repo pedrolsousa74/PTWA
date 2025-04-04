@@ -49,7 +49,7 @@
 
 
 <!-- Lista de Artigos -->
-<section class="bg-white py-10 px-6">
+<section class="bg-white mt-16 py-10 px-6">
     <div class="container mx-auto grid gap-10">
 
         <!-- Artigo 1 -->

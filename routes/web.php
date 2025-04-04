@@ -24,5 +24,5 @@ Route::get('/sobre', function () {
 
 // Página de login
 Route::get('/login', function () {
-    return view('auth.login'); // Certifica-te de que tens auth/login.blade.php
+    return view('login'); // Certifica-te de que tens auth/login.blade.php
 })->name('login');
