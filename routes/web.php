@@ -31,3 +31,15 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('register'); // Certifica-te de que tens auth/register.blade.php
 })->name('register');
+
+Route::get('/escrever', function () {
+    return view('publicar');
+})->name('escrever');
+
+Route::post('/artigos', function (Request $request) {
+    // processar o artigo
+})->middleware('auth')->name('artigos.store');
+
+Route::get('/sobre', function () {
+    return view('sobre');
+})->name('sobre');

@@ -41,11 +41,11 @@
             </button>
 
             <!-- Continuar como leitor -->
-        <p class="mt-4">
-            <a href="{{ route('home') }}" class="text-white font-semibold hover:underline">
-                Continuar como leitor
-            </a>
-        </p>
+            <p class="mt-4">
+                <a href="{{ route('home') }}" class="text-white font-semibold hover:underline">
+                    Continuar como leitor
+                </a>
+            </p>
         </form>
     </div>
 </div>
