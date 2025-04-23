@@ -13,8 +13,9 @@
 <div class="max-w-4xl mx-auto py-10 px-6 bg-white">
 
     <h2 class="text-3xl font-bold mb-4">Quem somos</h2>
-    <p class="text-gray-700 mb-6">Somos uma equipa composta por 5 estudantes apaixonados da ESTGA, unidos pelo objetivo de criar uma plataforma inovadora que facilite a partilha de ideias e inspire a troca de conhecimento. Acreditamos no poder das palavras e na capacidade de conectar pessoas, por isso criamos um espaço digital onde todos podem contribuir, aprender e crescer.</p>
-
+    <p class="text-gray-700 mb-6">Somos uma equipa composta por 5 estudantes apaixonados da ESTGA, unidos pelo objetivo de criar uma plataforma inovadora que facilite a partilha de ideias e inspire a troca de conhecimento.</p>
+    <p class="text-gray-700 mb-6">Acreditamos no poder das palavras e na capacidade de conectar pessoas, por isso criamos um espaço digital onde todos podem contribuir, aprender e crescer.</p>
+    
     <h2 class="text-3xl font-bold mb-4">O que fazemos</h2>
     <p class="text-gray-700 mb-6">Nossa missão é proporcionar uma plataforma acessível, onde escritores de todas as áreas podem publicar seus artigos e compartilhar suas ideias com um público curioso e ávido por novos conhecimentos. De temas tecnológicos a reflexões sobre arte, cultura, ciência e muito mais, buscamos explorar e celebrar a diversidade de pensamento. Estamos comprometidos em fomentar uma comunidade aberta, colaborativa e enriquecedora para todos os envolvidos.</p>
 
