@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArtigoController;
 
 // Página inicial
 Route::get('/', function () {
@@ -43,3 +44,10 @@ Route::post('/artigos', function (Request $request) {
 Route::get('/sobre', function () {
     return view('sobre');
 })->name('sobre');
+
+Route::post('/artigos', [ArtigoController::class, 'store'])->name('artigos.store');
+
+Route::get('/artigos', [ArtigoController::class, 'index'])->name('artigos');
+
+Route::get('/artigos/{id}', [ArtigoController::class, 'show'])->name('artigos.show');
+

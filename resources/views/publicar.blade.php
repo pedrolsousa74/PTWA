@@ -69,6 +69,7 @@
                 Publicar
             </button>
         </div>
+        <input type="hidden" name="conteudo" id="conteudo-hidden">
     </form>
 </div>
 
@@ -76,6 +77,11 @@
     function execCmd(command, value = null) {
         document.execCommand(command, false, value);
     }
+
+    // Ao submeter o formulário, copia o conteúdo do editor para o input escondido
+    document.querySelector('form').addEventListener('submit', function () {
+        document.getElementById('conteudo-hidden').value = document.getElementById('editor').innerHTML;
+    });
 </script>
 
 @endsection
