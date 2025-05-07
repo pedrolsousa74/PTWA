@@ -13,7 +13,7 @@
         <h2 class="text-4xl font-extrabold mt-10">Criar conta</h2>
 
         <!-- Formulário -->
-        <form method="POST" action="{{ route('home') }}" class="mt-6 space-y-4">
+        <form method="POST" action="{{ route('register') }}" class="mt-6 space-y-4">
             @csrf
 
             <div class="text-left">
@@ -33,6 +33,13 @@
                 <input type="password" name="password" required
                     class="w-full px-4 py-3 mt-1 bg-gray-300 rounded-lg focus:outline-none text-black">
             </div>
+
+            <div class="text-left">
+                <label class="block text-sm font-medium">Confirmar Password</label>
+                <input type="password" name="password_confirmation" required
+                    class="w-full px-4 py-3 mt-1 bg-gray-300 rounded-lg focus:outline-none text-black">
+            </div>
+
 
             <!-- Botão de Criar Conta -->
             <button type="submit"

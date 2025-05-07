@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArtigoController;
+use App\Http\Controllers\AuthController;
 
 // Página inicial
 Route::get('/', function () {
@@ -50,4 +51,17 @@ Route::post('/artigos', [ArtigoController::class, 'store'])->name('artigos.store
 Route::get('/artigos', [ArtigoController::class, 'index'])->name('artigos');
 
 Route::get('/artigos/{id}', [ArtigoController::class, 'show'])->name('artigos.show');
+
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Rota após login bem-sucedido
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard')->middleware('auth');
 
