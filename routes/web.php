@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArtigoController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LoginController;
 
 // Página inicial
 Route::get('/', function () {
@@ -65,3 +66,4 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware('auth');
 
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

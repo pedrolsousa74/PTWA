@@ -5,7 +5,7 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="hero bg-purple-700 text-white py-16 px-6 relative">
+    <section class="bg-purple-700 text-white py-16 shadow-md">
         <div class="container mx-auto flex flex-col lg:flex-row items-center">
             <div class="lg:w-1/2 text-left">
                 <h2 class="text-5xl font-bold mb-4 leading-tight">
