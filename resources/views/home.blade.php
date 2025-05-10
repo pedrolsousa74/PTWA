@@ -27,22 +27,22 @@
         <div class="container mx-auto text-center">
             <h2 class="text-5xl font-bold mb-10">Tendências</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-                @php
-                    $imagens = ['artigo1.jpg', 'artigo2.jpeg', 'artigo3.png', 'artigo4.jpeg'];
-                @endphp
-                @foreach ($imagens as $index => $imagem)
+                @forelse ($tendencias as $index => $artigo)
                     <div class="bg-white text-gray-900 p-6 rounded-lg shadow-md hover:shadow-lg transition transform hover:-translate-y-2">
-                        <img src="{{ asset('icones/' . $imagem) }}" alt="Imagem do Artigo {{ $index + 1 }}" class="w-full h-40 object-cover rounded-md mb-4">
-                        <h3 class="text-xl font-semibold">Título do Artigo {{ $index + 1 }}</h3>
-                        <p class="text-gray-600 mt-2">Este é um pequeno resumo do artigo {{ $index + 1 }} para despertar interesse no leitor.</p>
-                        <a href="#" class="mt-4 inline-block bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-800 transition">
+                        <img src="{{ asset('icones/artigo' . ($index % 4 + 1) . '.jpeg') }}" alt="Imagem do Artigo" class="w-full h-40 object-cover rounded-md mb-4">
+                        <h3 class="text-xl font-semibold">{{ $artigo->titulo }}</h3>
+                        <p class="text-gray-600 mt-2">{{ Str::limit(strip_tags($artigo->conteudo), 100) }}</p>
+                        <a href="{{ route('artigos.show', $artigo->id) }}" class="mt-4 inline-block bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-800 transition">
                             Ler Mais
                         </a>
                     </div>
-                @endforeach
+                @empty
+                    <p class="col-span-4 text-white">Ainda não há artigos em tendência.</p>
+                @endforelse
             </div>
         </div>
     </section>
+
 
 
     <!-- Escrever Artigo -->

@@ -21,7 +21,7 @@
     </div>
 
     <div class="mt-10 text-right">
-        <a href="{{ route('artigos.index') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full transition">
+        <a href="{{ route('artigos') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full transition">
             ← Voltar à lista
         </a>
     </div>

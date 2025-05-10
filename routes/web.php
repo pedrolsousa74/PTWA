@@ -7,66 +7,42 @@ use App\Http\Controllers\LoginController;
 
 // Página inicial
 Route::get('/', function () {
-    return view('home'); // Certifica-te de que tens um arquivo home.blade.php
+    return view('home');
 })->name('home');
 
-// Página de artigos
-Route::get('/artigos', function () {
-    return view('artigos'); // Criar artigos.blade.php
-})->name('artigos');
+// Controlador de artigos
+Route::get('/artigos', [ArtigoController::class, 'artigos'])->name('artigos');
+Route::get('/artigos/{id}', [ArtigoController::class, 'show'])->name('artigos.show');
+Route::post('/artigos', [ArtigoController::class, 'store'])->middleware('auth')->name('artigos.store');
 
-// Página de escrever artigo
-Route::get('/escrever', function () {
-    return view('escrever'); // Criar escrever.blade.php
-})->name('escrever');
-
-// Página sobre
-Route::get('/sobre', function () {
-    return view('sobre'); // Criar sobre.blade.php
-})->name('sobre');
-
-// Página de login
-Route::get('/login', function () {
-    return view('login'); // Certifica-te de que tens auth/login.blade.php
-})->name('login');
-
-// Página de login
-Route::get('/register', function () {
-    return view('register'); // Certifica-te de que tens auth/register.blade.php
-})->name('register');
-
+// Publicar artigo
 Route::get('/escrever', function () {
     return view('publicar');
 })->name('escrever');
 
-Route::post('/artigos', [ArtigoController::class, 'store'])->middleware('auth')->name('artigos.store');
+// Autenticação
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Dashboard e Perfil
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard')->middleware('auth');
+Route::get('/perfil', function () {
+    return view('perfil');
+})->middleware('auth')->name('perfil');
 
+// Página sobre
 Route::get('/sobre', function () {
     return view('sobre');
 })->name('sobre');
 
-Route::post('/artigos', [ArtigoController::class, 'store'])->name('artigos.store');
 
 Route::get('/artigos', [ArtigoController::class, 'index'])->name('artigos');
 
-Route::get('/artigos/{id}', [ArtigoController::class, 'show'])->name('artigos.show');
+Route::post('/artigos/{id}/like', [ArtigoController::class, 'like'])->name('artigos.like');
 
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
-
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-// Rota após login bem-sucedido
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard')->middleware('auth');
-
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-Route::get('/perfil', function () {
-    return view('perfil');
-})->middleware('auth')->name('perfil');
+Route::get('/', [ArtigoController::class, 'homepage'])->name('home');
