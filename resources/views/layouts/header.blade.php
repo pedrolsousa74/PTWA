@@ -25,7 +25,7 @@
 
                     <!-- Popup dropdown -->
                     <div id="profile-dropdown" class="hidden absolute right-0 mt-2 z-50 bg-white text-black rounded-md shadow-lg py-2 w-48 z-50">
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Ver perfil</a>
+                        <a href="{{ route('perfil') }}" class="block px-4 py-2 hover:bg-gray-100">Ver perfil</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Terminar Sessão</button>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Artigo;
 use Illuminate\Http\Request;
 
@@ -9,15 +10,25 @@ class ArtigoController extends Controller
 {
     public function store(Request $request)
     {
-        Artigo::create([
-            'titulo' => $request->titulo,
-            'subtitulo' => $request->subtitulo,
-            'categoria' => $request->categoria,
-            'conteudo' => $request->conteudo,
+        $request->validate([
+            'titulo' => 'required',
+            'subtitulo' => 'nullable',
+            'categoria' => 'required',
+            'conteudo' => 'required',
         ]);
 
-        return redirect()->route('home')->with('success', 'Artigo publicado com sucesso!');
+        $artigo = Artigo::create([
+            'titulo' => $request->input('titulo'),
+            'subtitulo' => $request->input('subtitulo'),
+            'categoria' => $request->input('categoria'),
+            'conteudo' => $request->input('conteudo'),
+            'user_id' => auth()->id(),
+        ]);
+
+        return redirect()->route('home')->with('success', 'Artigo criado com sucesso!');
     }
+
+
 
     public function index()
     {

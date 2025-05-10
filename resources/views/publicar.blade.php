@@ -11,8 +11,7 @@
 </section>
 
 <div class="max-w-4xl mx-auto py-10 px-6 bg-white">
-
-    <form action="{{ route('artigos.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+    <form id="artigo-form" action="{{ route('artigos.store') }}" method="POST" class="space-y-6">
         @csrf
 
         <!-- Título -->
@@ -34,7 +33,7 @@
         <!-- Categoria -->
         <div>
             <label class="font-bold text-lg block">Categoria:</label>
-            <select name="categoria"
+            <select name="categoria" required
                 class="w-[160px] mt-1 bg-gray-200 rounded-lg px-4 py-3 text-gray-800">
                 <option disabled selected>Seleciona</option>
                 <option value="tecnologia">Tecnologia</option>
@@ -44,32 +43,29 @@
             </select>
         </div>
 
-
-
-        <!-- Editor de texto com formatação -->
+        <!-- Editor -->
         <div id="editor"
             contenteditable="true"
-            class="w-full mt-1 bg-gray-200 rounded-lg px-4 py-3 text-gray-800 h-60 overflow-y-auto">
-            Escreve o teu artigo aqui...
+            class="w-full mt-1 bg-gray-200 rounded-lg px-4 py-3 text-gray-800 h-60 overflow-y-auto border border-gray-300 focus:outline-none">
         </div>
 
-        <!-- Barra de ferramentas -->
+        <!-- Botões de formatação -->
         <div class="flex space-x-3 mt-2 text-gray-600">
-            <button type="button" onclick="execCmd('insertImage', prompt('URL da imagem:'))" title="Adicionar imagem">🖼️</button>
-            <button type="button" onclick="execCmd('italic')" class="italic" title="Itálico">I</button>
             <button type="button" onclick="execCmd('bold')" class="font-bold" title="Negrito">B</button>
+            <button type="button" onclick="execCmd('italic')" class="italic" title="Itálico">I</button>
+            <button type="button" onclick="execCmd('insertImage', prompt('URL da imagem:'))" title="Imagem">🖼️</button>
         </div>
 
+        <!-- Textarea escondida que vai realmente enviar o conteúdo -->
+        <textarea name="conteudo" id="conteudo" class="hidden"></textarea>
 
-
-        <!-- Botão Publicar -->
+        <!-- Botão -->
         <div class="text-right">
             <button type="submit"
                 class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-6 py-2 rounded-full transition">
                 Publicar
             </button>
         </div>
-        <input type="hidden" name="conteudo" id="conteudo-hidden">
     </form>
 </div>
 
@@ -78,10 +74,16 @@
         document.execCommand(command, false, value);
     }
 
-    // Ao submeter o formulário, copia o conteúdo do editor para o input escondido
-    document.querySelector('form').addEventListener('submit', function () {
-        document.getElementById('conteudo-hidden').value = document.getElementById('editor').innerHTML;
+    document.getElementById('artigo-form').addEventListener('submit', function (e) {
+        const editorContent = document.getElementById('editor').innerHTML.trim();
+
+        if (!editorContent || editorContent === '<br>' || editorContent === '<div><br></div>') {
+            alert('Por favor, escreve algum conteúdo no artigo.');
+            e.preventDefault();
+            return;
+        }
+
+        document.getElementById('conteudo').value = editorContent;
     });
 </script>
-
 @endsection

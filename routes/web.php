@@ -39,9 +39,8 @@ Route::get('/escrever', function () {
     return view('publicar');
 })->name('escrever');
 
-Route::post('/artigos', function (Request $request) {
-    // processar o artigo
-})->middleware('auth')->name('artigos.store');
+Route::post('/artigos', [ArtigoController::class, 'store'])->middleware('auth')->name('artigos.store');
+
 
 Route::get('/sobre', function () {
     return view('sobre');
@@ -67,3 +66,7 @@ Route::get('/dashboard', function () {
 })->name('dashboard')->middleware('auth');
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/perfil', function () {
+    return view('perfil');
+})->middleware('auth')->name('perfil');
