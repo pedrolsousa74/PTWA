@@ -38,9 +38,6 @@
                     </button>
                 </div>
             </form>
-
-
-
         </div>
     </div>
 </section>
@@ -61,7 +58,6 @@
                     <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm">
                         {{ $artigo->user->name ?? 'Anónimo' }}
                     </span>
-
                 </div>
 
                 <h2 class="text-2xl font-bold mt-2">{{ $artigo->titulo }}</h2>
@@ -84,15 +80,21 @@
                         </button>
                     </form>
                 </div>
-
             </div>
-            <img src="{{ asset('icones/artigo' . ($loop->iteration % 4 + 1) . '.jpeg') }}" class="w-60 h-40 object-cover rounded-lg {{ $loop->iteration % 2 == 0 ? 'mr-6' : 'ml-6' }}">
+
+            @php
+                $caminhoImagem = $artigo->imagem
+                    ? asset('storage/artigos/' . $artigo->imagem)
+                    : asset('icones/artigo' . ($loop->iteration % 4 + 1) . '.jpeg');
+            @endphp
+
+            <img src="{{ $caminhoImagem }}" alt="Imagem do artigo"
+                class="w-60 h-40 object-cover rounded-lg {{ $loop->iteration % 2 == 0 ? 'mr-6' : 'ml-6' }}">
         </article>
         @empty
         <p class="text-gray-600">Nenhum artigo foi publicado ainda.</p>
         @endforelse
     </div>
 </section>
-
 
 @endsection

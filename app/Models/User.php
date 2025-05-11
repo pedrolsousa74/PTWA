@@ -57,5 +57,12 @@ class User extends Authenticatable
         return $this->belongsToMany(Artigo::class, 'likes')->withTimestamps();
     }
 
+    public function artigosFavoritos()
+    {
+        return $this->belongsToMany(Artigo::class, 'likes')->withTimestamps();
+    }
+
+
+
 
 }

@@ -10,6 +10,8 @@
 </head>
 <body>
     @include('layouts.header')
+    @yield('scripts')
+
 
     <main>
         @yield('content')

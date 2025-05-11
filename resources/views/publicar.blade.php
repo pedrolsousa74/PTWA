@@ -11,7 +11,7 @@
 </section>
 
 <div class="max-w-4xl mx-auto py-10 px-6 bg-white">
-    <form id="artigo-form" action="{{ route('artigos.store') }}" method="POST" class="space-y-6">
+    <form id="artigo-form" action="{{ route('artigos.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
 
         <!-- Título -->
@@ -59,6 +59,20 @@
         <!-- Textarea escondida que vai realmente enviar o conteúdo -->
         <textarea name="conteudo" id="conteudo" class="hidden"></textarea>
 
+        <!-- Upload da Imagem -->
+        <div>
+            <label class="font-bold text-lg block">Imagem de Capa (Opcional):</label>
+            <div class="flex items-center mt-1">
+                <!-- Botão de escolher ficheiro -->
+                <label for="imagem" class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-6 py-2 rounded-full text-sm cursor-pointer transition">
+                    Escolher Ficheiro
+                </label>
+                <input type="file" id="imagem" name="imagem" accept="image/*" class="hidden">
+            </div>
+        </div>
+
+
+
         <!-- Botão -->
         <div class="text-right">
             <button type="submit"
@@ -67,6 +81,7 @@
             </button>
         </div>
     </form>
+
 </div>
 
 <script>

@@ -15,18 +15,31 @@ class ArtigoController extends Controller
             'subtitulo' => 'nullable',
             'categoria' => 'required',
             'conteudo' => 'required',
+            'imagem' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // validação do ficheiro
         ]);
 
-        $artigo = Artigo::create([
+        $nomeImagem = null;
+
+        if ($request->hasFile('imagem')) {
+            $imagem = $request->file('imagem');
+            $nomeImagem = uniqid() . '.' . $imagem->getClientOriginalExtension();
+            $imagem->storeAs('public/artigos', $nomeImagem);
+        }
+
+        Artigo::create([
             'titulo' => $request->input('titulo'),
             'subtitulo' => $request->input('subtitulo'),
             'categoria' => $request->input('categoria'),
             'conteudo' => $request->input('conteudo'),
             'user_id' => auth()->id(),
+            'imagem' => $nomeImagem,
         ]);
 
         return redirect()->route('home')->with('success', 'Artigo criado com sucesso!');
     }
+
+
+
 
 
 

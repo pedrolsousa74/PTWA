@@ -46,3 +46,5 @@ Route::get('/artigos', [ArtigoController::class, 'index'])->name('artigos');
 Route::post('/artigos/{id}/like', [ArtigoController::class, 'like'])->name('artigos.like');
 
 Route::get('/', [ArtigoController::class, 'homepage'])->name('home');
+
+Route::post('/artigos/{id}/like', [ArtigoController::class, 'like'])->name('artigos.like')->middleware('auth');
