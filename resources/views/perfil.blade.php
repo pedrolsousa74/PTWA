@@ -46,7 +46,8 @@
     @forelse(Auth::user()->artigos()->latest()->get() as $artigo)
         <div class="bg-white rounded-md shadow p-6 mb-4">
             <h4 class="text-xl font-semibold text-gray-800">{{ $artigo->titulo }}</h4>
-            <p class="text-gray-600 mt-2">{{ Str::limit($artigo->conteudo, 150) }}</p>
+            <p class="text-gray-600 mt-2">{{ Str::limit(strip_tags($artigo->conteudo), 150) }}</p>
+
             <a href="{{ route('artigos.show', $artigo->id) }}" class="text-purple-600 font-semibold hover:underline mt-2 inline-block">
                 Ler mais →
             </a>
@@ -63,7 +64,8 @@
     @forelse(Auth::user()->artigosFavoritos()->latest()->get() as $artigo)
         <div class="bg-white rounded-md shadow p-6 mb-4">
             <h4 class="text-xl font-semibold text-gray-800">{{ $artigo->titulo }}</h4>
-            <p class="text-gray-600 mt-2">{{ Str::limit($artigo->conteudo, 150) }}</p>
+            <p class="text-gray-600 mt-2">{{ Str::limit(strip_tags($artigo->conteudo), 150) }}</p>
+
             <a href="{{ route('artigos.show', $artigo->id) }}" class="text-purple-600 font-semibold hover:underline mt-2 inline-block">
                 Ler mais →
             </a>

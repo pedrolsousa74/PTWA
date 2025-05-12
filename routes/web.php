@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArtigoController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ComentarioController;
 
 // Página inicial
 Route::get('/', function () {
@@ -48,3 +49,6 @@ Route::post('/artigos/{id}/like', [ArtigoController::class, 'like'])->name('arti
 Route::get('/', [ArtigoController::class, 'homepage'])->name('home');
 
 Route::post('/artigos/{id}/like', [ArtigoController::class, 'like'])->name('artigos.like')->middleware('auth');
+
+Route::post('/artigos/{artigo}/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
+

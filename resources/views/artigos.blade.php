@@ -68,6 +68,8 @@
                         LER MAIS
                     </a>
 
+
+
                     <form action="{{ route('artigos.like', $artigo->id) }}" method="POST">
                         @csrf
                         <button type="submit" class="text-red-600 hover:text-red-800 text-xl">
@@ -79,6 +81,7 @@
                             <span class="text-sm text-black ml-1">{{ $artigo->usersWhoLiked->count() }}</span>
                         </button>
                     </form>
+
                 </div>
             </div>
 

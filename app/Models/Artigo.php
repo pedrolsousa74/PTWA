@@ -18,4 +18,10 @@ class Artigo extends Model
         return $this->belongsToMany(User::class, 'likes')->withTimestamps();
     }
 
+    public function comentarios()
+    {
+        return $this->hasMany(Comentario::class)->latest(); // ordena por created_at DESC
+    }
+
+
 }

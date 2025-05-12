@@ -20,6 +20,26 @@
         {!! $artigo->conteudo !!}
     </div>
 
+    <!-- Separação visual com margem e linha -->
+    <h3 class="font-semibold mt-10 pt-4 border-t border-gray-200">Comentários:</h3>
+
+    <form action="{{ route('comentarios.store', $artigo->id) }}" method="POST" class="flex space-x-2 mt-2 w-full">
+        @csrf
+        <textarea name="conteudo" rows="1" placeholder="Escreve um comentário..." class="flex-1 border p-2 rounded resize-none"></textarea>
+        <button type="submit" class="bg-purple-600 text-white px-3 py-2 rounded hover:bg-purple-700">Comentar</button>
+    </form>
+
+    <div class="mt-4">
+        @foreach ($artigo->comentarios as $comentario)
+            <div class="text-sm text-gray-700 mt-2 border p-2 rounded bg-gray-100">
+                <strong>{{ $comentario->user->name }}</strong>: {{ $comentario->conteudo }}
+            </div>
+        @endforeach
+    </div>
+
+
+
+
     <div class="mt-10 text-right">
         <a href="{{ route('artigos') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-full transition">
             ← Voltar à lista
