@@ -21,6 +21,10 @@ Route::get('/escrever', function () {
     return view('publicar');
 })->name('escrever');
 
+// Rota para editar artigo
+Route::get('/artigos/{id}/editar', [ArtigoController::class, 'edit'])->middleware('auth')->name('artigos.edit');
+Route::put('/artigos/{id}', [ArtigoController::class, 'update'])->middleware('auth')->name('artigos.update');
+
 // Autenticação
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -51,4 +55,7 @@ Route::get('/', [ArtigoController::class, 'homepage'])->name('home');
 Route::post('/artigos/{id}/like', [ArtigoController::class, 'like'])->name('artigos.like')->middleware('auth');
 
 Route::post('/artigos/{artigo}/comentarios', [ComentarioController::class, 'store'])->name('comentarios.store');
+
+// Rota para deletar artigos (precisa estar autenticado e ser o dono do artigo)
+Route::delete('/artigos/{id}', [ArtigoController::class, 'destroy'])->name('artigos.destroy')->middleware('auth');
 

@@ -38,11 +38,6 @@ class ArtigoController extends Controller
         return redirect()->route('home')->with('success', 'Artigo criado com sucesso!');
     }
 
-
-
-
-
-
     public function index(Request $request)
     {
         $categoria = $request->query('categoria');
@@ -104,8 +99,96 @@ class ArtigoController extends Controller
         return view('home', compact('tendencias'));
     }
 
+    /**
+     * Remove o artigo especificado da base de dados.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $artigo = Artigo::findOrFail($id);
 
+        // Verificar se o usuário logado é o dono do artigo
+        if (auth()->id() !== $artigo->user_id) {
+            return redirect()->back()->with('error', 'Não tens permissão para apagar este artigo.');
+        }
 
+        // Remover a imagem associada ao artigo, se existir
+        if ($artigo->imagem) {
+            \Storage::delete('public/artigos/' . $artigo->imagem);
+        }
 
+        // Excluir o artigo
+        $artigo->delete();
 
+        return redirect()->route('perfil')->with('success', 'Artigo eliminado com sucesso!');
+    }
+
+    /**
+     * Mostra o formulário para editar o artigo especificado.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $artigo = Artigo::findOrFail($id);
+
+        // Verificar se o usuário logado é o dono do artigo
+        if (auth()->id() !== $artigo->user_id) {
+            return redirect()->back()->with('error', 'Não tens permissão para editar este artigo.');
+        }
+
+        return view('publicar', compact('artigo'));
+    }
+
+    /**
+     * Atualiza o artigo especificado na base de dados.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'titulo' => 'required',
+            'subtitulo' => 'nullable',
+            'categoria' => 'required',
+            'conteudo' => 'required',
+            'imagem' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        $artigo = Artigo::findOrFail($id);
+
+        // Verificar se o usuário logado é o dono do artigo
+        if (auth()->id() !== $artigo->user_id) {
+            return redirect()->back()->with('error', 'Não tens permissão para editar este artigo.');
+        }
+
+        // Atualiza os dados do artigo
+        $artigo->titulo = $request->input('titulo');
+        $artigo->subtitulo = $request->input('subtitulo');
+        $artigo->categoria = $request->input('categoria');
+        $artigo->conteudo = $request->input('conteudo');
+
+        // Verifica se foi enviada uma nova imagem
+        if ($request->hasFile('imagem')) {
+            // Exclui a imagem anterior, se existir
+            if ($artigo->imagem) {
+                \Storage::delete('public/artigos/' . $artigo->imagem);
+            }
+
+            // Salva a nova imagem
+            $imagem = $request->file('imagem');
+            $nomeImagem = uniqid() . '.' . $imagem->getClientOriginalExtension();
+            $imagem->storeAs('public/artigos', $nomeImagem);
+            $artigo->imagem = $nomeImagem;
+        }
+
+        $artigo->save();
+
+        return redirect()->route('perfil')->with('success', 'Artigo atualizado com sucesso!');
+    }
 }

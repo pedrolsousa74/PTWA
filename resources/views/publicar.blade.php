@@ -11,15 +11,24 @@
 </section>
 
 <div class="max-w-4xl mx-auto py-10 px-6 bg-white">
-    <form id="artigo-form" action="{{ route('artigos.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-        @csrf
+    @if(isset($artigo))
+        <h2 class="text-3xl font-bold mb-6 text-purple-700">Editar Artigo</h2>
+        <form id="artigo-form" action="{{ route('artigos.update', $artigo->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            @csrf
+            @method('PUT')
+    @else
+        <h2 class="text-3xl font-bold mb-6 text-purple-700">Criar Novo Artigo</h2>
+        <form id="artigo-form" action="{{ route('artigos.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            @csrf
+    @endif
 
         <!-- Título -->
         <div>
             <label class="font-bold text-lg block">Título:</label>
             <input type="text" name="titulo" required
                 class="w-full mt-1 bg-gray-200 rounded-lg px-4 py-3 text-gray-800 placeholder-gray-500"
-                placeholder="Escreve o título do teu artigo.">
+                placeholder="Escreve o título do teu artigo."
+                value="{{ isset($artigo) ? $artigo->titulo : old('titulo') }}">
         </div>
 
         <!-- Subtítulo -->
@@ -27,7 +36,8 @@
             <label class="font-bold text-lg block">Subtítulo:</label>
             <input type="text" name="subtitulo"
                 class="w-full mt-1 bg-gray-200 rounded-lg px-4 py-3 text-gray-800 placeholder-gray-500"
-                placeholder="Assunto do artigo (opcional).">
+                placeholder="Assunto do artigo (opcional)."
+                value="{{ isset($artigo) ? $artigo->subtitulo : old('subtitulo') }}">
         </div>
 
         <!-- Categoria -->
@@ -35,11 +45,11 @@
             <label class="font-bold text-lg block">Categoria:</label>
             <select name="categoria" required
                 class="w-[160px] mt-1 bg-gray-200 rounded-lg px-4 py-3 text-gray-800">
-                <option disabled selected>Seleciona</option>
-                <option value="tecnologia">Tecnologia</option>
-                <option value="ambiente">Ambiente</option>
-                <option value="educacao">Educação</option>
-                <option value="outros">Outros</option>
+                <option disabled {{ !isset($artigo) ? 'selected' : '' }}>Seleciona</option>
+                <option value="tecnologia" {{ isset($artigo) && $artigo->categoria == 'tecnologia' ? 'selected' : '' }}>Tecnologia</option>
+                <option value="ambiente" {{ isset($artigo) && $artigo->categoria == 'ambiente' ? 'selected' : '' }}>Ambiente</option>
+                <option value="educacao" {{ isset($artigo) && $artigo->categoria == 'educacao' ? 'selected' : '' }}>Educação</option>
+                <option value="outros" {{ isset($artigo) && $artigo->categoria == 'outros' ? 'selected' : '' }}>Outros</option>
             </select>
         </div>
 
@@ -47,6 +57,7 @@
         <div id="editor"
             contenteditable="true"
             class="w-full mt-1 bg-gray-200 rounded-lg px-4 py-3 text-gray-800 h-60 overflow-y-auto border border-gray-300 focus:outline-none">
+            {!! isset($artigo) ? $artigo->conteudo : '' !!}
         </div>
 
         <!-- Botões de formatação -->
@@ -77,7 +88,7 @@
         <div class="text-right">
             <button type="submit"
                 class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-6 py-2 rounded-full transition">
-                Publicar
+                {{ isset($artigo) ? 'Salvar Alterações' : 'Publicar' }}
             </button>
         </div>
     </form>
