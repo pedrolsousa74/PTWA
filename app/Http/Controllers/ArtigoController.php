@@ -108,9 +108,10 @@ class ArtigoController extends Controller
     public function destroy($id)
     {
         $artigo = Artigo::findOrFail($id);
+        $isAdmin = auth()->user()->isAdmin();
 
-        // Verificar se o usuário logado é o dono do artigo
-        if (auth()->id() !== $artigo->user_id) {
+        // Verificar se o usuário logado é o dono do artigo ou é administrador
+        if (auth()->id() !== $artigo->user_id && !$isAdmin) {
             return redirect()->back()->with('error', 'Não tens permissão para apagar este artigo.');
         }
 
@@ -121,6 +122,11 @@ class ArtigoController extends Controller
 
         // Excluir o artigo
         $artigo->delete();
+
+        // Se for um administrador excluindo o artigo de outro usuário, redirecionar para a página apropriada
+        if ($isAdmin && auth()->id() !== $artigo->user_id) {
+            return redirect()->route('admin.artigos')->with('success', 'Artigo eliminado com sucesso!');
+        }
 
         return redirect()->route('perfil')->with('success', 'Artigo eliminado com sucesso!');
     }

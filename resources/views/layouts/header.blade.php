@@ -26,6 +26,12 @@
                     <!-- Popup dropdown -->
                     <div id="profile-dropdown" class="hidden absolute right-0 mt-2 z-50 bg-white text-black rounded-md shadow-lg py-2 w-48 z-50">
                         <a href="{{ route('perfil') }}" class="block px-4 py-2 hover:bg-gray-100">Ver perfil</a>
+                        @if(Auth::user()->isAdmin())
+                            <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 hover:bg-gray-100 text-purple-700 font-semibold">
+                                <i class="fas fa-user-shield mr-2"></i>Painel Admin
+                            </a>
+                            <div class="border-t border-gray-200 my-1"></div>
+                        @endif
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Terminar Sessão</button>

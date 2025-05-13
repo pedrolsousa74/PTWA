@@ -13,11 +13,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Criar um utilizador administrador padrão
+        User::create([
+            'name' => 'Administrador',
+            'email' => 'admin@postit.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('admin123'),
+            'is_admin' => true,
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Utilizador comum para testes
+        User::create([
+            'name' => 'Utilizador Teste',
+            'email' => 'user@postit.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('user123'),
+            'is_admin' => false,
         ]);
     }
 }

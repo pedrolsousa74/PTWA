@@ -44,6 +44,16 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            
+            // Log para debug
+            \Log::debug('Usuário autenticado:', [
+                'id' => Auth::user()->id,
+                'name' => Auth::user()->name,
+                'email' => Auth::user()->email,
+                'is_admin' => Auth::user()->is_admin,
+                'isAdmin()' => Auth::user()->isAdmin()
+            ]);
+            
             return redirect()->route('dashboard');
         }
 
