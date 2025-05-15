@@ -1,4 +1,4 @@
-<footer class="bg-gray-900 text-white py-8 w-full mt-auto">
+<footer class="bg-gray-900 text-white py-8">
     <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-6">
         <!-- Nome do site -->
         <h2 class="text-2xl font-bold mb-4 md:mb-0">POST.IT</h2>

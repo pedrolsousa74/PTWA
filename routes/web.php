@@ -35,11 +35,16 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Dashboard e Perfil
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $tendencias = App\Models\Artigo::withCount('usersWhoLiked')
+        ->orderByDesc('users_who_liked_count')
+        ->take(4)
+        ->get();
+    return view('dashboard', compact('tendencias'));
 })->name('dashboard')->middleware('auth');
 Route::get('/perfil', function () {
     return view('perfil');
 })->middleware('auth')->name('perfil');
+
 
 // Página sobre
 Route::get('/sobre', function () {

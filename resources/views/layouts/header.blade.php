@@ -16,15 +16,16 @@
                 <!-- Nome do utilizador -->
                 <span>Olá, {{ Auth::user()->name }}</span>
 
-                <!-- Container relativo para o ícone e dropdown -->
+                <!-- Container para o ícone de perfil e dropdown -->
                 <div class="relative">
-                    <!-- Ícone de perfil -->
-                    <button id="profile-toggle" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center focus:outline-none">
+                    <!-- Botão de perfil -->
+                    <button id="profile-toggle" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600 focus:outline-none">
                         <span class="text-sm font-semibold">👤</span>
                     </button>
-
-                    <!-- Popup dropdown -->
-                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 z-50 bg-white text-black rounded-md shadow-lg py-2 w-48 z-50">
+                </div>
+                
+                <!-- Dropdown menu - posicionado fora do fluxo normal para evitar problemas de scroll -->
+                <div id="profile-dropdown" class="hidden bg-white rounded-md shadow-lg py-2 text-gray-800 w-48">
                         <a href="{{ route('perfil') }}" class="block px-4 py-2 hover:bg-gray-100">Ver perfil</a>
                         @if(Auth::user()->isAdmin())
                             <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 hover:bg-gray-100 text-purple-700 font-semibold">
@@ -37,6 +38,7 @@
                             <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Terminar Sessão</button>
                         </form>
                     </div>
+
                 </div>
             @endauth
 
@@ -68,20 +70,5 @@
 
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const toggle = document.getElementById("profile-toggle");
-        const dropdown = document.getElementById("profile-dropdown");
-
-        toggle.addEventListener("click", function () {
-            dropdown.classList.toggle("hidden");
-        });
-
-        // Fecha o dropdown ao clicar fora
-        document.addEventListener("click", function (e) {
-            if (!toggle.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.classList.add("hidden");
-            }
-        });
-    });
+<!-- Os scripts foram movidos para o app.blade.php para evitar duplicação e conflitos -->
 </script>

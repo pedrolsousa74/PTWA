@@ -197,4 +197,20 @@ class ArtigoController extends Controller
 
         return redirect()->route('perfil')->with('success', 'Artigo atualizado com sucesso!');
     }
+
+    /**
+     * Exibe os artigos do usuário logado.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function meusArtigos()
+    {
+        $artigos = auth()->user()->artigos()->latest()->get();
+        $tendencias = Artigo::withCount('usersWhoLiked')
+            ->orderByDesc('users_who_liked_count')
+            ->take(4)
+            ->get();
+        
+        return view('meus-artigos', compact('artigos', 'tendencias'));
+    }
 }
