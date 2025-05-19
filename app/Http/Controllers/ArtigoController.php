@@ -18,12 +18,75 @@ class ArtigoController extends Controller
             'imagem' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048', // validação do ficheiro
         ]);
 
+        // Inicializa como null para depois atribuir um valor
         $nomeImagem = null;
 
         if ($request->hasFile('imagem')) {
-            $imagem = $request->file('imagem');
-            $nomeImagem = uniqid() . '.' . $imagem->getClientOriginalExtension();
-            $imagem->storeAs('public/artigos', $nomeImagem);
+            try {
+                $imagem = $request->file('imagem');
+                
+                // Generate unique name with timestamp to avoid conflicts
+                $nomeImagem = time() . '_' . uniqid() . '.' . $imagem->getClientOriginalExtension();
+                
+                // Make sure directory exists
+                $storage_path = storage_path('app/public/artigos');
+                if (!file_exists($storage_path)) {
+                    mkdir($storage_path, 0755, true);
+                }
+                
+                // Try to move the uploaded file directly
+                if ($imagem->move($storage_path, $nomeImagem)) {
+                    // Also create a copy in the public path to ensure it's accessible
+                    $public_path = public_path('storage/artigos');
+                    if (!file_exists($public_path)) {
+                        mkdir($public_path, 0755, true);
+                    }
+                    copy($storage_path . '/' . $nomeImagem, $public_path . '/' . $nomeImagem);
+                } else {
+                    $nomeImagem = null;
+                    \Log::error('Failed to move uploaded image for article: ' . $request->input('titulo'));
+                }
+            } catch (\Exception $e) {
+                $nomeImagem = null;
+                \Log::error('Exception during image upload: ' . $e->getMessage());
+            }
+        } else {
+            // Se nenhuma imagem foi enviada, use a imagem post-it como imagem genérica
+            
+            // Nome do arquivo de origem e extensão
+            $sourceFileName = 'post-it.png';
+            
+            // Gerar nome único com timestamp para o arquivo de destino
+            $nomeImagem = 'generic_' . time() . '_' . uniqid() . '.png';
+            
+            // Caminho de origem do arquivo (ícones estão em public/Icones)
+            $sourcePath = public_path('Icones/' . $sourceFileName);
+            
+            if (file_exists($sourcePath)) {
+                try {
+                    // Criar diretórios se não existirem
+                    $storage_path = storage_path('app/public/artigos');
+                    $public_path = public_path('storage/artigos');
+                    
+                    if (!file_exists($storage_path)) {
+                        mkdir($storage_path, 0755, true);
+                    }
+                    if (!file_exists($public_path)) {
+                        mkdir($public_path, 0755, true);
+                    }
+                    
+                    // Copiar o arquivo genérico para os diretórios de destino
+                    copy($sourcePath, $storage_path . '/' . $nomeImagem);
+                    copy($sourcePath, $public_path . '/' . $nomeImagem);
+                    
+                    \Log::info('Generic image assigned to article: ' . $request->input('titulo'));
+                } catch (\Exception $e) {
+                    $nomeImagem = null;
+                    \Log::error('Exception during generic image assignment: ' . $e->getMessage());
+                }
+            } else {
+                \Log::error('Generic image source not found: ' . $sourcePath);
+            }
         }
 
         Artigo::create([
@@ -41,32 +104,30 @@ class ArtigoController extends Controller
     public function index(Request $request)
     {
         $categoria = $request->query('categoria');
+        $autor = $request->query('autor');
         $data = $request->query('data');
+        
+        // Lista de categorias disponíveis para o dropdown
+        $categorias = ['tecnologia', 'ambiente', 'educacao', 'outros'];
 
-        // Verifica se a data fornecida está no futuro, caso sim, retorna uma coleção vazia.
-        if ($data && strtotime($data) > strtotime(now()->toDateString())) {
-            // Se a data for no futuro, não há artigos para mostrar
-            $artigos = collect();  // Retorna uma coleção vazia
-        } else {
-            // Caso contrário, filtra os artigos conforme a categoria e data
-            $artigos = Artigo::with('user', 'usersWhoLiked') // Carregar o relacionamento 'user' com os artigos
-                ->when($categoria, function($query) use ($categoria) {
-                    return $query->where('categoria', $categoria);
-                })
-                ->when($data, function($query) use ($data) {
-                    // Filtra artigos com data maior ou igual a data fornecida
-                    return $query->whereDate('created_at', '>=', $data);
-                })
-                ->orderBy('created_at', 'desc')
-                ->get();
-            
-            // Se a data fornecida for anterior ao dia atual, mostramos apenas artigos a partir dessa data
-            if ($data && strtotime($data) < strtotime('2025-05-10')) {
-                $artigos = collect(); // Retorna uma coleção vazia se a data for antes de 10/05/2025
-            }
-        }
+        // Filtra os artigos conforme a categoria, autor e data
+        $artigos = Artigo::with('user', 'usersWhoLiked') // Carregar o relacionamento 'user' com os artigos
+            ->when($categoria, function($query) use ($categoria) {
+                return $query->where('categoria', $categoria);
+            })
+            ->when($autor, function($query) use ($autor) {
+                return $query->whereHas('user', function($q) use ($autor) {
+                    $q->where('name', 'like', '%' . $autor . '%');
+                });
+            })
+            ->when($data, function($query) use ($data) {
+                // Filtra artigos com data exatamente igual à data fornecida
+                return $query->whereDate('created_at', '=', $data);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        return view('artigos', compact('artigos'));
+        return view('artigos', compact('artigos', 'categorias'));
     }
 
     public function show($id)
@@ -181,36 +242,105 @@ class ArtigoController extends Controller
 
         // Verifica se foi enviada uma nova imagem
         if ($request->hasFile('imagem')) {
-            // Exclui a imagem anterior, se existir
-            if ($artigo->imagem) {
-                \Storage::delete('public/artigos/' . $artigo->imagem);
+            try {
+                // Exclui a imagem anterior, se existir
+                if ($artigo->imagem) {
+                    $old_storage_path = storage_path('app/public/artigos/' . $artigo->imagem);
+                    $old_public_path = public_path('storage/artigos/' . $artigo->imagem);
+                    
+                    if (file_exists($old_storage_path)) {
+                        unlink($old_storage_path);
+                    }
+                    
+                    if (file_exists($old_public_path)) {
+                        unlink($old_public_path);
+                    }
+                }
+                
+                // Processa a nova imagem
+                $imagem = $request->file('imagem');
+                $nomeImagem = time() . '_' . uniqid() . '.' . $imagem->getClientOriginalExtension();
+                
+                // Make sure directory exists
+                $storage_path = storage_path('app/public/artigos');
+                if (!file_exists($storage_path)) {
+                    mkdir($storage_path, 0755, true);
+                }
+                
+                // Try to move the uploaded file directly
+                if ($imagem->move($storage_path, $nomeImagem)) {
+                    // Also create a copy in the public path to ensure it's accessible
+                    $public_path = public_path('storage/artigos');
+                    if (!file_exists($public_path)) {
+                        mkdir($public_path, 0755, true);
+                    }
+                    copy($storage_path . '/' . $nomeImagem, $public_path . '/' . $nomeImagem);
+                    
+                    $artigo->imagem = $nomeImagem;
+                } else {
+                    \Log::error('Failed to move uploaded image for article update: ' . $artigo->titulo);
+                }
+            } catch (\Exception $e) {
+                \Log::error('Exception during image update: ' . $e->getMessage());
             }
-
-            // Salva a nova imagem
-            $imagem = $request->file('imagem');
-            $nomeImagem = uniqid() . '.' . $imagem->getClientOriginalExtension();
-            $imagem->storeAs('public/artigos', $nomeImagem);
-            $artigo->imagem = $nomeImagem;
+        } else if ($request->has('remove_image') || ($artigo->imagem === null)) {
+            // Se o usuário solicitou a remoção da imagem ou se não há imagem, atribua uma genérica
+            // Se a requisição tem 'remove_image' ou se o artigo não tem imagem atualmente
+            
+            // Remove a imagem atual se existir
+            if ($artigo->imagem) {
+                $old_storage_path = storage_path('app/public/artigos/' . $artigo->imagem);
+                $old_public_path = public_path('storage/artigos/' . $artigo->imagem);
+                
+                if (file_exists($old_storage_path)) {
+                    unlink($old_storage_path);
+                }
+                
+                if (file_exists($old_public_path)) {
+                    unlink($old_public_path);
+                }
+            }
+            
+            // Use a imagem post-it como imagem genérica
+            
+            // Nome do arquivo de origem e extensão
+            $sourceFileName = 'post-it.png';
+            
+            // Gerar nome único com timestamp para o arquivo de destino
+            $nomeImagem = 'generic_' . time() . '_' . uniqid() . '.png';
+            
+            // Caminho de origem do arquivo (ícones estão em public/Icones)
+            $sourcePath = public_path('Icones/' . $sourceFileName);
+            
+            if (file_exists($sourcePath)) {
+                try {
+                    // Criar diretórios se não existirem
+                    $storage_path = storage_path('app/public/artigos');
+                    $public_path = public_path('storage/artigos');
+                    
+                    if (!file_exists($storage_path)) {
+                        mkdir($storage_path, 0755, true);
+                    }
+                    if (!file_exists($public_path)) {
+                        mkdir($public_path, 0755, true);
+                    }
+                    
+                    // Copiar o arquivo genérico para os diretórios de destino
+                    copy($sourcePath, $storage_path . '/' . $nomeImagem);
+                    copy($sourcePath, $public_path . '/' . $nomeImagem);
+                    
+                    $artigo->imagem = $nomeImagem;
+                    \Log::info('Generic image assigned to article update: ' . $artigo->titulo);
+                } catch (\Exception $e) {
+                    \Log::error('Exception during generic image assignment in update: ' . $e->getMessage());
+                }
+            } else {
+                \Log::error('Generic image source not found in update: ' . $sourcePath);
+            }
         }
 
         $artigo->save();
 
         return redirect()->route('perfil')->with('success', 'Artigo atualizado com sucesso!');
-    }
-
-    /**
-     * Exibe os artigos do usuário logado.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function meusArtigos()
-    {
-        $artigos = auth()->user()->artigos()->latest()->get();
-        $tendencias = Artigo::withCount('usersWhoLiked')
-            ->orderByDesc('users_who_liked_count')
-            ->take(4)
-            ->get();
-        
-        return view('meus-artigos', compact('artigos', 'tendencias'));
     }
 }

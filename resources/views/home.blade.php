@@ -143,26 +143,46 @@
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 w-full overflow-hidden">
                 @forelse ($tendencias as $index => $artigo)
-                    <div class="bg-white text-purple-900 rounded-xl shadow-md hover:shadow-xl transition hover:bg-gray-50 overflow-hidden border border-purple-300 animate-on-scroll w-full" style="animation-delay: {{ $index * 100 }}ms">
+                    <div class="bg-white text-purple-900 rounded-xl shadow-md hover:shadow-xl transition hover:bg-gray-50 overflow-hidden border border-purple-300 animate-on-scroll w-full flex flex-col h-full" style="animation-delay: {{ $index * 100 }}ms">
                         <div class="relative">
-                            <img src="{{ asset('icones/artigo' . ($index % 4 + 1) . '.jpeg') }}" alt="Imagem do Artigo" class="w-full h-52 object-cover">
-                            <div class="absolute top-0 right-0 bg-white text-purple-900 text-xs font-bold uppercase py-1 px-3 rounded-bl-lg border border-purple-200">
-                                <i class="fas fa-fire mr-1"></i> Popular
-                            </div>
+                            @php
+                                // Use post-it.png como imagem padrão para todos os artigos
+                                $defaultImage = 'Icones/post-it.png';
+                                
+                                // For user uploaded images
+                                if ($artigo->imagem) {
+                                    $publicPath = public_path('storage/artigos/' . $artigo->imagem);
+                                    $storagePath = storage_path('app/public/artigos/' . $artigo->imagem);
+                                    
+                                    // Use uploaded image if it exists
+                                    if (file_exists($publicPath) || file_exists($storagePath)) {
+                                        $imagePath = asset('storage/artigos/' . $artigo->imagem);
+                                    } else {
+                                        $imagePath = asset($defaultImage);
+                                    }
+                                } else {
+                                    $imagePath = asset($defaultImage);
+                                }
+                            @endphp
+                            <img src="{{ $imagePath }}" alt="Imagem do Artigo" class="w-full h-52 object-cover" 
+                                 onerror="this.onerror=null; this.src='{{ asset('Icones/post-it.png') }}';">
                         </div>
-                        <div class="p-6">
-                            <div class="flex items-center mb-3">
-                                <span class="bg-purple-100 text-purple-900 text-xs px-2 py-1 rounded-full">{{ ucfirst($artigo->categoria ?? 'Geral') }}</span>
-                                <span class="ml-2 text-xs text-purple-500">{{ $artigo->created_at->format('d/m/Y') }}</span>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <div>
+                                <div class="flex items-center mb-3">
+                                    <span class="bg-purple-100 text-purple-900 text-xs px-2 py-1 rounded-full">{{ ucfirst($artigo->categoria ?? 'Geral') }}</span>
+                                    <span class="ml-2 text-xs text-purple-500">{{ $artigo->created_at->format('d/m/Y') }}</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 line-clamp-2 text-purple-900">{{ $artigo->titulo }}</h3>
+                                <p class="text-purple-700 mb-4 line-clamp-3">{{ Str::limit(strip_tags($artigo->conteudo), 120) }}</p>
                             </div>
-                            <h3 class="text-xl font-bold mb-3 line-clamp-2 text-purple-900">{{ $artigo->titulo }}</h3>
-                            <p class="text-purple-700 mb-4 line-clamp-3">{{ Str::limit(strip_tags($artigo->conteudo), 120) }}</p>
-                            <div class="flex justify-between items-center">
+                            <!-- This div will always be at the bottom with mt-auto -->
+                            <div class="flex justify-between items-center mt-auto pt-3">
                                 <div class="flex items-center">
                                     <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-2">
                                         <span class="font-medium text-purple-900">{{ substr($artigo->user->name ?? 'A', 0, 1) }}</span>
                                     </div>
-                                    <span class="text-sm text-purple-700">{{ $artigo->user->name ?? 'Anónimo' }}</span>
+                                    <span class="bg-purple-700 text-white px-3 py-1 rounded-full text-sm font-medium flex items-center">{{ $artigo->user->name ?? 'Anónimo' }}</span>
                                 </div>
                                 <a href="{{ route('artigos.show', $artigo->id) }}" class="flex items-center text-purple-600 hover:text-purple-800 font-medium">
                                     Ler <i class="fas fa-arrow-right ml-1"></i>

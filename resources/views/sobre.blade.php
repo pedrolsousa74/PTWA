@@ -36,10 +36,8 @@
 <!-- Estatísticas -->
 <section class="bg-white py-16 relative overflow-hidden">
     <div class="container mx-auto text-center relative z-10 px-6">
-        <div class="inline-block mb-2 bg-purple-100 px-4 py-1 rounded-full">
-            <span class="text-sm font-bold text-purple-700 uppercase tracking-wider">POST-IT EM NÚMEROS</span>
-        </div>
-        <h2 class="text-3xl font-bold mt-2 mb-4 text-purple-900">Nossa comunidade em crescimento</h2>
+
+        <h2 class="text-3xl font-bold mt-2 mb-4 text-purple-900">A nossa comunidade em crescimento</h2>
         <p class="text-gray-600 max-w-2xl mx-auto mb-10">Confira os números que demonstram o crescimento contínuo da nossa plataforma, graças à participação ativa de utilizadores como tu.</p>
         
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 w-full">

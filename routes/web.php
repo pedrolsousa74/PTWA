@@ -13,7 +13,7 @@ Route::get('/', function () {
 })->name('home');
 
 // Controlador de artigos
-Route::get('/artigos', [ArtigoController::class, 'artigos'])->name('artigos');
+Route::get('/artigos', [ArtigoController::class, 'index'])->name('artigos');
 Route::get('/artigos/{id}', [ArtigoController::class, 'show'])->name('artigos.show');
 Route::post('/artigos', [ArtigoController::class, 'store'])->middleware('auth')->name('artigos.store');
 
@@ -45,14 +45,10 @@ Route::get('/perfil', function () {
     return view('perfil');
 })->middleware('auth')->name('perfil');
 
-
 // Página sobre
 Route::get('/sobre', function () {
     return view('sobre');
 })->name('sobre');
-
-
-Route::get('/artigos', [ArtigoController::class, 'index'])->name('artigos');
 
 Route::post('/artigos/{id}/like', [ArtigoController::class, 'like'])->name('artigos.like');
 
