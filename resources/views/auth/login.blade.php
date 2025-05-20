@@ -48,12 +48,15 @@
             Continuar como leitor
         </button>
 
-        <!-- Link para registo -->
-        <p class="mt-4">
+        <!-- Links para registo e esqueceu senha -->
+        <div class="mt-4 flex justify-between">
             <a href="{{ route('register') }}" class="text-white font-semibold hover:underline">
                 Ainda não tens conta?
             </a>
-        </p>
+            <a href="{{ route('password.request') }}" class="text-white font-semibold hover:underline">
+                Esqueceu a senha?
+            </a>
+        </div>
     </div>
 </div>
 @endsection
