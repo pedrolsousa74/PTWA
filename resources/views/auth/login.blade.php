@@ -26,6 +26,13 @@
                 <label class="block text-sm font-medium">Password</label>
                 <input type="password" name="password" required
                     class="w-full px-4 py-3 mt-1 bg-gray-300 rounded-lg focus:outline-none text-black">
+                
+                <!-- Link para recuperação de senha -->
+                <div class="text-right mt-1">
+                    <a href="{{ route('password.request') }}" class="text-sm text-gray-300 hover:text-white">
+                        Esqueceu a senha?
+                    </a>
+                </div>
             </div>
 
             <!-- Botão de Login -->
