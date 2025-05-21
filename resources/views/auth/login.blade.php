@@ -30,7 +30,7 @@
                 <!-- Link para recuperação de senha -->
                 <div class="text-right mt-1">
                     <a href="{{ route('password.request') }}" class="text-sm text-gray-300 hover:text-white">
-                        Esqueceu a senha?
+                        Esqueceu a password?
                     </a>
                 </div>
             </div>
@@ -49,12 +49,9 @@
         </button>
 
         <!-- Links para registo e esqueceu senha -->
-        <div class="mt-4 flex justify-between">
+        <div class="mt-4 flex justify-center">
             <a href="{{ route('register') }}" class="text-white font-semibold hover:underline">
-                Ainda não tens conta?
-            </a>
-            <a href="{{ route('password.request') }}" class="text-white font-semibold hover:underline">
-                Esqueceu a senha?
+            Ainda não tens conta?
             </a>
         </div>
     </div>

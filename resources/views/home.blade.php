@@ -267,7 +267,7 @@
                         <i class="fas fa-pen-to-square text-2xl text-purple-900"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-purple-900">Publicação Simples</h3>
-                    <p class="text-purple-700">Interface intuitiva para publicar suas ideias sem complicações, com ferramentas de formatação e edição fáceis de usar.</p>
+                    <p class="text-purple-700">Interface intuitiva para publicar as suas ideias sem complicações, com ferramentas de formatação e edição fáceis de usar.</p>
                 </div>
                 
                 <div class="bg-white p-8 rounded-xl shadow-sm border border-purple-300 hover:shadow-lg transition-all duration-300 animate-on-scroll" style="animation-delay: 100ms">
@@ -283,7 +283,7 @@
                         <i class="fas fa-chart-line text-2xl text-purple-900"></i>
                     </div>
                     <h3 class="text-xl font-bold mb-3 text-purple-900">Visibilidade</h3>
-                    <p class="text-purple-700">Seus artigos serão exibidos para um público interessado, com ferramentas para aumentar seu alcance.</p>
+                    <p class="text-purple-700">Os seus artigos serão exibidos para um público interessado, com ferramentas para aumentar o seu alcance.</p>
                 </div>
             </div>
         </div>
@@ -301,7 +301,7 @@
             <div class="bg-gradient-to-r from-yellow-400 to-yellow-500 w-full max-w-5xl mx-auto rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
                 <div class="md:w-1/2 p-12 flex flex-col justify-center items-start text-left">
                     <h2 class="text-3xl md:text-4xl font-bold mb-6 leading-tight text-white">
-                        Cria conta e começa a publicar <span class="text-purple-900">hoje mesmo</span>
+                        Cria conta e começa a publicar <span class="text-purple-900">hoje mesmo!</span>
                     </h2>
                     <p class="text-white mb-8 opacity-90">Junte-se à nossa comunidade de autores e partilhe as suas ideias com o mundo. É rápido e gratuito!</p>
                     <button onclick="window.location.href='{{ route('register') }}'" class="bg-purple-800 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-purple-900 transition shadow-lg flex items-center">

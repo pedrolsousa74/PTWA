@@ -14,7 +14,7 @@
         
         <!-- Descrição -->
         <p class="mt-4 text-gray-300">
-            Insira o seu email para receber um link de recuperação de senha.
+            Insira o seu email para receber um link de recuperação de password.
         </p>
 
         <!-- Mensagem de status -->

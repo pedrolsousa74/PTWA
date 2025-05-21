@@ -78,7 +78,7 @@
                     <div class="absolute top-0 right-0 -mt-3 -mr-3 bg-purple-600 rounded-full h-8 w-8 flex items-center justify-center text-white">
                         <i class="fas fa-users"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-purple-800 mb-2">Nossa Equipe</h3>
+                    <h3 class="text-xl font-bold text-purple-800 mb-2">Nossa Equipa</h3>
                     <div class="text-purple-700">5 estudantes apaixonados</div>
                 </div>
             </div>
@@ -103,7 +103,7 @@
             </div>
             <div class="md:w-2/3">
                 <h2 class="text-3xl font-bold mb-4 text-purple-900 border-b-2 border-purple-200 pb-2">O que fazemos</h2>
-                <p class="text-gray-700">Nossa missão é proporcionar uma plataforma acessível, onde escritores de todas as áreas podem publicar seus artigos e compartilhar suas ideias com um público curioso e ansioso por novos conhecimentos. De temas tecnológicos a reflexões sobre arte, cultura, ciência e muito mais, buscamos explorar e celebrar a diversidade do pensamento. Estamos comprometidos em fomentar uma comunidade aberta, colaborativa e enriquecedora para todos os envolvidos.</p>
+                <p class="text-gray-700">A nossa missão é proporcionar uma plataforma acessível, onde escritores de todas as áreas podem publicar os seus artigos e compartilhar as suas ideias com um público curioso e ansioso por novos conhecimentos. De temas tecnológicos a reflexões sobre arte, cultura, ciência e muito mais, procuramos explorar e celebrar a diversidade do pensamento. Estamos comprometidos em fomentar uma comunidade aberta, colaborativa e enriquecedora para todos os envolvidos.</p>
             </div>
         </div>
     </article>
@@ -121,7 +121,7 @@
             </div>
             <div class="md:w-2/3">
                 <h2 class="text-3xl font-bold mb-4 text-purple-900 border-b-2 border-purple-200 pb-2">Nosso diferencial</h2>
-                <p class="text-gray-700">Além de proporcionar um espaço para a expressão individual, nossa plataforma oferece uma experiência única de interação entre escritores e leitores. Através de comentários, discussões e feedbacks construtivos, promovemos um ambiente onde todos podem crescer e evoluir. Valorizamos cada voz e estamos sempre em busca de novas ideias que possam agregar e transformar o nosso universo de conhecimento.</p>
+                <p class="text-gray-700">Além de proporcionar um espaço para a expressão individual, a nossa plataforma oferece uma experiência única de interação entre escritores e leitores. Através de comentários, discussões e feedbacks construtivos, promovemos um ambiente onde todos podem crescer e evoluir. Valorizamos cada voz e estamos sempre à procura de novas ideias que possam agregar e transformar o nosso universo de conhecimento.</p>
             </div>
         </div>
     </article>
@@ -129,7 +129,7 @@
     <!-- Call to Action -->
     <article class="mb-16 bg-gradient-to-r from-purple-700 to-purple-900 text-white p-8 rounded-xl">
         <h2 class="text-3xl font-bold mb-4 border-b-2 border-purple-500 pb-2 inline-block">Junta-te a nós!</h2>
-        <p class="mb-6">Se tens uma ideia inovadora, uma reflexão ou uma experiência que gostaria de compartilhar, a nossa plataforma é o lugar perfeito para ti. Estamos à procura de pessoas criativas, curiosas e dispostas a contribuir para um mundo mais conectado e informado.</p>
+        <p class="mb-6">Se tens uma ideia inovadora, uma reflexão ou uma experiência que gostarias de compartilhar, a nossa plataforma é o lugar perfeito para ti. Estamos à procura de pessoas criativas, curiosas e dispostas a contribuir para um mundo mais conectado e informado.</p>
         
         <div class="mt-8 flex justify-center">
             <a href="{{ route('register') }}" class="bg-yellow-500 text-black px-8 py-4 rounded-lg text-lg font-semibold hover:bg-yellow-400 transition shadow-lg inline-flex items-center mr-4">

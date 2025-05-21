@@ -177,10 +177,9 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-500 mt-2">Se você marcar "Usar imagem genérica" e não fizer upload de uma nova imagem, uma imagem padrão será usada.</p>
                 </div>
                 @else
-                <p class="text-sm text-gray-600 mb-2">Se você não fizer upload de uma imagem, uma imagem genérica será usada automaticamente.</p>
+                
                 @endif
                 
                 <div class="flex items-center mt-1">
