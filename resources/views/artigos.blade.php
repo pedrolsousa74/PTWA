@@ -135,7 +135,7 @@
             </div>
         </div> 
         <!-- Indicador de filtros ativos -->
-        @if(request('usuario')  request('categoria')  request('data'))
+        @if(request('usuario') || request('categoria') || request('data'))
             <div class="bg-purple-50 p-4 rounded-lg mt-6 animate-fadeIn">
                 <div class="flex flex-wrap gap-2 items-center">
                     <span class="text-purple-700 font-medium">Filtros ativos:</span>

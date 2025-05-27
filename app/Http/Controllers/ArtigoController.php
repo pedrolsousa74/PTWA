@@ -125,7 +125,7 @@ class ArtigoController extends Controller
                 return $query->whereDate('created_at', '=', $data);
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(10)
             ->withQueryString();
 
         return view('artigos', compact('artigos', 'categorias'));
