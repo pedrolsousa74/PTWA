@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPasswordMail;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -97,14 +99,40 @@ class AuthController extends Controller
             'email' => 'required|email',
         ]);
 
-        // Enviar o e-mail com o link de redefinição de senha
-        $status = Password::sendResetLink(
-            $request->only('email')
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
+
+        if (!$user) {
+            return back()->withErrors(['email' => 'Não encontramos um usuário com esse endereço de e-mail.']);
+        }
+
+        // Gerar token
+        $token = Str::random(64);
+        
+        // Armazenar token no banco de dados
+        \DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $email],
+            [
+                'email' => $email,
+                'token' => $token,
+                'created_at' => now()
+            ]
         );
 
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with('status', __($status))
-            : back()->withErrors(['email' => __($status)]);
+        // Enviar email
+        try {
+            Mail::to($email)->send(new ResetPasswordMail($token, $email));
+            
+            // Registrar envio nos logs
+            \Log::info("Email de recuperação de senha enviado para: " . $email);
+            
+            return back()->with('status', 'Enviamos um link de recuperação para o seu e-mail!');
+        } catch (\Exception $e) {
+            // Registrar erro nos logs
+            \Log::error("Erro ao enviar email de recuperação: " . $e->getMessage());
+            
+            return back()->withErrors(['email' => 'Não foi possível enviar o e-mail de recuperação. Por favor, tente novamente mais tarde.']);
+        }
     }
 
     /**
@@ -132,24 +160,37 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
-        // Tenta redefinir a senha do usuário
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password),
-                    'remember_token' => Str::random(60),
-                ]);
+        // Verificar se o token é válido
+        $tokenData = \DB::table('password_reset_tokens')
+            ->where('email', $request->email)
+            ->where('token', $request->token)
+            ->first();
 
-                $user->save();
+        if (!$tokenData) {
+            return back()->withErrors(['email' => 'Token inválido ou expirado.']);
+        }
 
-                event(new PasswordReset($user));
-            }
-        );
+        // Verificar se o token não expirou (60 minutos)
+        if (now()->diffInMinutes($tokenData->created_at) > 60) {
+            return back()->withErrors(['email' => 'Token expirado. Por favor, solicite um novo link de redefinição.']);
+        }
 
-        // Redireciona conforme o resultado
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
-            : back()->withErrors(['email' => __($status)]);
+        // Atualizar a senha do usuário
+        $user = User::where('email', $request->email)->first();
+        
+        if (!$user) {
+            return back()->withErrors(['email' => 'Não encontramos um usuário com esse endereço de e-mail.']);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        // Remover o token usado
+        \DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+
+        // Log de sucesso
+        \Log::info("Senha redefinida com sucesso para o usuário: " . $user->email);
+
+        return redirect()->route('login')->with('status', 'Sua senha foi redefinida com sucesso!');
     }
 }
