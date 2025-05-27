@@ -104,7 +104,14 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                
+                                <div>
+                                    <label for="usuario" class="block text-sm font-medium text-gray-700 mb-1">
+                                        <i class="fas fa-user mr-1 text-purple-500"></i> Utilizador
+                                    </label>
+                                    <input type="text" id="usuario" name="usuario" placeholder="Nome do utilizador" 
+                                        class="w-full border border-purple-200 rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-black"
+                                        value="{{ request('usuario') }}">
+                                </div>
                                 <div>
                                     <label for="data" class="block text-sm font-medium text-gray-700 mb-1">
                                         <i class="fas fa-calendar mr-1 text-purple-500"></i> Data exata
@@ -126,7 +133,46 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> 
+        <!-- Indicador de filtros ativos -->
+        @if(request('usuario')  request('categoria')  request('data'))
+            <div class="bg-purple-50 p-4 rounded-lg mt-6 animate-fadeIn">
+                <div class="flex flex-wrap gap-2 items-center">
+                    <span class="text-purple-700 font-medium">Filtros ativos:</span>
+
+                    @if(request('usuario'))
+                        <span class="bg-purple-100 text-purple-800 text-sm px-3 py-1 rounded-full flex items-center">
+                            <i class="fas fa-user mr-1"></i> Utilizador: {{ request('usuario') }}
+                            <a href="{{ route('artigos', array_merge(request()->except('usuario'), ['page' => 1])) }}" class="ml-1 hover:text-purple-900">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </span>
+                    @endif
+
+                    @if(request('categoria'))
+                        <span class="bg-purple-100 text-purple-800 text-sm px-3 py-1 rounded-full flex items-center">
+                            <i class="fas fa-folder mr-1"></i> Categoria: {{ ucfirst(request('categoria')) }}
+                            <a href="{{ route('artigos', array_merge(request()->except('categoria'), ['page' => 1])) }}" class="ml-1 hover:text-purple-900">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </span>
+                    @endif
+
+                    @if(request('data'))
+                        <span class="bg-purple-100 text-purple-800 text-sm px-3 py-1 rounded-full flex items-center">
+                            <i class="fas fa-calendar mr-1"></i> Data: {{ request('data') }}
+                            <a href="{{ route('artigos', array_merge(request()->except('data'), ['page' => 1])) }}" class="ml-1 hover:text-purple-900">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </span>
+                    @endif
+
+                    <a href="{{ route('artigos') }}" class="ml-auto text-purple-700 hover:text-purple-900 text-sm">
+                        <i class="fas fa-times-circle mr-1"></i> Limpar todos
+                    </a>
+                </div>
+            </div>
+        @endif  
     </div>
 </section>
 

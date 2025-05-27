@@ -104,7 +104,7 @@ class ArtigoController extends Controller
     public function index(Request $request)
     {
         $categoria = $request->query('categoria');
-        $autor = $request->query('autor');
+        $usuario = $request->query('usuario');
         $data = $request->query('data');
         
         // Lista de categorias disponíveis para o dropdown
@@ -115,9 +115,9 @@ class ArtigoController extends Controller
             ->when($categoria, function($query) use ($categoria) {
                 return $query->where('categoria', $categoria);
             })
-            ->when($autor, function($query) use ($autor) {
-                return $query->whereHas('user', function($q) use ($autor) {
-                    $q->where('name', 'like', '%' . $autor . '%');
+            ->when($usuario, function($query) use ($usuario) {
+                return $query->whereHas('user', function($q) use ($usuario) {
+                    $q->where('name', 'like', '%' . $usuario . '%');
                 });
             })
             ->when($data, function($query) use ($data) {
@@ -125,7 +125,8 @@ class ArtigoController extends Controller
                 return $query->whereDate('created_at', '=', $data);
             })
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
+            ->withQueryString();
 
         return view('artigos', compact('artigos', 'categorias'));
     }
