@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Redefinir Senha - Post.it')
+@section('title', 'Redefinir Password - Post.it')
 
 @section('content')
 <div class="flex items-center justify-center min-h-screen relative">
@@ -10,11 +10,11 @@
 
     <div class="w-full max-w-md text-center text-white">
         <!-- Título -->
-        <h2 class="text-4xl font-extrabold mt-10">Redefinir Senha</h2>
+        <h2 class="text-4xl font-extrabold mt-10">Redefinir Password</h2>
         
         <!-- Descrição -->
         <p class="mt-4 text-gray-300">
-            Crie uma nova senha para a sua conta.
+            Crie uma nova password para a sua conta.
         </p>
 
         <!-- Erros de validação -->
@@ -40,13 +40,13 @@
             </div>
 
             <div class="text-left">
-                <label class="block text-sm font-medium">Nova Senha</label>
+                <label class="block text-sm font-medium">Nova Password</label>
                 <input type="password" name="password" required
                     class="w-full px-4 py-3 mt-1 bg-gray-300 rounded-lg focus:outline-none text-black">
             </div>
 
             <div class="text-left">
-                <label class="block text-sm font-medium">Confirmar Nova Senha</label>
+                <label class="block text-sm font-medium">Confirmar Nova Password</label>
                 <input type="password" name="password_confirmation" required
                     class="w-full px-4 py-3 mt-1 bg-gray-300 rounded-lg focus:outline-none text-black">
             </div>
@@ -54,14 +54,14 @@
             <!-- Botão de Redefinir -->
             <button type="submit"
                 class="w-full mt-4 bg-gray-300 text-purple-700 font-bold py-3 rounded-lg hover:bg-gray-400 transition">
-                Redefinir Senha
+                Redefinir password
             </button>
         </form>
 
         <!-- Links de navegação -->
         <div class="mt-6">
             <a href="{{ route('login') }}" class="text-white font-semibold hover:underline">
-                Voltar ao login
+                Voltar à página de início de sessão
             </a>
         </div>
     </div>

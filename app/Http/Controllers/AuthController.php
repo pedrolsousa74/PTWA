@@ -51,7 +51,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
             
             // Log para debug
-            \Log::debug('Usuário autenticado:', [
+            \Log::debug('Utilizador autenticado:', [
                 'id' => Auth::user()->id,
                 'name' => Auth::user()->name,
                 'email' => Auth::user()->email,
@@ -78,7 +78,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Exibe o formulário para solicitar o link de redefinição de senha.
+     * Exibe o formulário para solicitar o link de redefinição de palavra-passe.
      *
      * @return \Illuminate\View\View
      */
@@ -88,7 +88,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Envia o e-mail com o link de recuperação de senha.
+     * Envia o e-mail com o link de recuperação de palavra-passe.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -103,7 +103,7 @@ class AuthController extends Controller
         $user = User::where('email', $email)->first();
 
         if (!$user) {
-            return back()->withErrors(['email' => 'Não encontramos um usuário com esse endereço de e-mail.']);
+            return back()->withErrors(['email' => 'Não encontrámos um utilizador com esse endereço de e-mail.']);
         }
 
         // Gerar token
@@ -124,9 +124,9 @@ class AuthController extends Controller
             Mail::to($email)->send(new ResetPasswordMail($token, $email));
             
             // Registrar envio nos logs
-            \Log::info("Email de recuperação de senha enviado para: " . $email);
+            \Log::info("Email de recuperação de palavra-passe enviado para: " . $email);
             
-            return back()->with('status', 'Enviamos um link de recuperação para o seu e-mail!');
+            return back()->with('status', 'Enviámos um link de recuperação para o seu e-mail!');
         } catch (\Exception $e) {
             // Registrar erro nos logs
             \Log::error("Erro ao enviar email de recuperação: " . $e->getMessage());
@@ -136,7 +136,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Exibe o formulário de redefinição de senha.
+     * Exibe o formulário de redefinição de palavra-passe.
      *
      * @param  string  $token
      * @return \Illuminate\View\View
@@ -147,7 +147,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Redefine a senha do usuário.
+     * Redefine a palavra-passe do utilizador.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
@@ -175,11 +175,11 @@ class AuthController extends Controller
             return back()->withErrors(['email' => 'Token expirado. Por favor, solicite um novo link de redefinição.']);
         }
 
-        // Atualizar a senha do usuário
+        // Atualizar a palavra-passe do utilizador
         $user = User::where('email', $request->email)->first();
         
         if (!$user) {
-            return back()->withErrors(['email' => 'Não encontramos um usuário com esse endereço de e-mail.']);
+            return back()->withErrors(['email' => 'Não encontrámos um utilizador com esse endereço de e-mail.']);
         }
 
         $user->password = Hash::make($request->password);
@@ -189,8 +189,8 @@ class AuthController extends Controller
         \DB::table('password_reset_tokens')->where('email', $request->email)->delete();
 
         // Log de sucesso
-        \Log::info("Senha redefinida com sucesso para o usuário: " . $user->email);
+        \Log::info("Palavra-passe redefinida com sucesso para o utilizador: " . $user->email);
 
-        return redirect()->route('login')->with('status', 'Sua senha foi redefinida com sucesso!');
+        return redirect()->route('login')->with('status', 'A sua palavra-passe foi redefinida com sucesso!');
     }
 }

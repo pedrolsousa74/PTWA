@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Recuperar Senha - Post.it')
+@section('title', 'Recuperar Password - Post.it')
 
 @section('content')
 <div class="flex items-center justify-center min-h-screen relative">
@@ -10,7 +10,7 @@
 
     <div class="w-full max-w-md text-center text-white">
         <!-- Título -->
-        <h2 class="text-4xl font-extrabold mt-10">Recuperar Senha</h2>
+        <h2 class="text-4xl font-extrabold mt-10">Recuperar Password</h2>
         
         <!-- Descrição -->
         <p class="mt-4 text-gray-300">
@@ -53,10 +53,10 @@
         <!-- Links de navegação -->
         <div class="mt-6 flex justify-between">
             <a href="{{ route('login') }}" class="text-white font-semibold hover:underline">
-                Voltar ao login
+                Voltar à sessão
             </a>
             <a href="{{ route('register') }}" class="text-white font-semibold hover:underline">
-                Registar conta
+                Criar conta
             </a>
         </div>
     </div>

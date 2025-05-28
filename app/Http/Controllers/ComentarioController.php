@@ -27,7 +27,7 @@ class ComentarioController extends Controller
     {
         $comentario = Comentario::findOrFail($id);
         
-        // Verificar se o usuário é dono do comentário ou admin
+        // Verificar se o utilizador é dono do comentário ou admin
         if (auth()->id() !== $comentario->user_id && !auth()->user()->isAdmin()) {
             return redirect()->back()->with('error', 'Não tens permissão para apagar este comentário.');
         }

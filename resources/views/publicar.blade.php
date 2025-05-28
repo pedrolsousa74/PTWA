@@ -186,7 +186,7 @@
                     <label for="imagem" class="bg-purple-700 hover:bg-purple-800 text-white font-medium px-6 py-3 rounded-lg text-sm cursor-pointer transition flex items-center shadow-md">
                         <i class="fas fa-upload mr-2"></i> Escolher imagem
                     </label>
-                    <span id="file-chosen" class="ml-3 text-sm text-gray-600">Nenhum arquivo selecionado</span>
+                    <span id="file-chosen" class="ml-3 text-sm text-gray-600">Nenhum ficheiro selecionado</span>
                     <input type="file" id="imagem" name="imagem" accept="image/*" class="hidden">
                 </div>
             </div>
@@ -233,19 +233,19 @@
         });
     });
 
-    // Mostra o nome do arquivo selecionado e gerencia a opção "remover imagem"
+    // Mostra o nome do ficheiro selecionado e gerencia a opção "remover imagem"
     document.getElementById('imagem').addEventListener('change', function() {
         const fileChosen = document.getElementById('file-chosen');
         const removeImageCheckbox = document.getElementById('remove_image');
         
         if (this.files.length > 0) {
             fileChosen.textContent = this.files[0].name;
-            // Se o usuário selecionar uma nova imagem, desmarque a opção de remover
+            // Se o utilizador selecionar uma nova imagem, desmarque a opção de remover
             if (removeImageCheckbox) {
                 removeImageCheckbox.checked = false;
             }
         } else {
-            fileChosen.textContent = 'Nenhum arquivo selecionado';
+            fileChosen.textContent = 'Nenhum ficheiro selecionado';
         }
     });
     
@@ -256,10 +256,10 @@
             const fileInput = document.getElementById('imagem');
             const fileChosen = document.getElementById('file-chosen');
             
-            // Se o usuário marcar para usar imagem genérica, limpe a seleção de arquivo
+            // Se o utilizador marcar para usar imagem genérica, limpe a seleção de ficheiro
             if (this.checked) {
                 fileInput.value = '';
-                fileChosen.textContent = 'Nenhum arquivo selecionado';
+                fileChosen.textContent = 'Nenhum ficheiro selecionado';
             }
         });
     }

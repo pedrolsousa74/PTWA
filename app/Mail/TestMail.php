@@ -9,20 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ResetPasswordMail extends Mailable
+class TestMail extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $token;
-    public $email;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($token, $email)
+    public function __construct()
     {
-        $this->token = $token;
-        $this->email = $email;
+        //
     }
 
     /**
@@ -31,7 +27,7 @@ class ResetPasswordMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Recuperação de Palavra-passe - Post.it',
+            subject: 'Test Mail',
         );
     }
 
@@ -41,7 +37,7 @@ class ResetPasswordMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.reset-password',
+            view: 'emails.test',
         );
     }
 

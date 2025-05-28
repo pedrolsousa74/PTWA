@@ -52,6 +52,6 @@ class CreateAdminUser extends Command
         }
         
         $this->info("Email: {$email}");
-        $this->info("Senha: {$password}");
+        $this->info("Palavra-passe: {$password}");
     }
 }

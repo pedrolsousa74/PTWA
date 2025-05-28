@@ -104,8 +104,9 @@ class ArtigoController extends Controller
     public function index(Request $request)
     {
         $categoria = $request->query('categoria');
-        $usuario = $request->query('usuario');
+        $autor = $request->query('autor');
         $data = $request->query('data');
+        $usuario = $request->query('usuario');
         
         // Lista de categorias disponíveis para o dropdown
         $categorias = ['tecnologia', 'ambiente', 'educacao', 'outros'];
@@ -114,6 +115,11 @@ class ArtigoController extends Controller
         $artigos = Artigo::with('user', 'usersWhoLiked') // Carregar o relacionamento 'user' com os artigos
             ->when($categoria, function($query) use ($categoria) {
                 return $query->where('categoria', $categoria);
+            })
+            ->when($autor, function($query) use ($autor) {
+                return $query->whereHas('user', function($q) use ($autor) {
+                    $q->where('name', 'like', '%' . $autor . '%');
+                });
             })
             ->when($usuario, function($query) use ($usuario) {
                 return $query->whereHas('user', function($q) use ($usuario) {
@@ -127,7 +133,7 @@ class ArtigoController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->withQueryString();
-
+            
         return view('artigos', compact('artigos', 'categorias'));
     }
 
@@ -172,7 +178,7 @@ class ArtigoController extends Controller
         $artigo = Artigo::findOrFail($id);
         $isAdmin = auth()->user()->isAdmin();
 
-        // Verificar se o usuário logado é o dono do artigo ou é administrador
+        // Verificar se o utilizador autenticado é o dono do artigo ou é administrador
         if (auth()->id() !== $artigo->user_id && !$isAdmin) {
             return redirect()->back()->with('error', 'Não tens permissão para apagar este artigo.');
         }
@@ -185,7 +191,7 @@ class ArtigoController extends Controller
         // Excluir o artigo
         $artigo->delete();
 
-        // Se for um administrador excluindo o artigo de outro usuário, redirecionar para a página apropriada
+        // Se for um administrador excluindo o artigo de outro utilizador, redirecionar para a página apropriada
         if ($isAdmin && auth()->id() !== $artigo->user_id) {
             return redirect()->route('admin.artigos')->with('success', 'Artigo eliminado com sucesso!');
         }
@@ -203,7 +209,7 @@ class ArtigoController extends Controller
     {
         $artigo = Artigo::findOrFail($id);
 
-        // Verificar se o usuário logado é o dono do artigo
+        // Verificar se o utilizador autenticado é o dono do artigo
         if (auth()->id() !== $artigo->user_id) {
             return redirect()->back()->with('error', 'Não tens permissão para editar este artigo.');
         }
@@ -218,6 +224,55 @@ class ArtigoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Recebe uma imagem do editor e faz upload para o servidor
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadEditorImage(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+        ]);
+        
+        try {
+            $image = $request->file('image');
+            $imageName = 'editor_' . time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            
+            // Garante que o diretório existe
+            $storagePath = storage_path('app/public/artigos');
+            if (!file_exists($storagePath)) {
+                mkdir($storagePath, 0755, true);
+            }
+            
+            // Move o arquivo para o storage
+            if ($image->move($storagePath, $imageName)) {
+                // Cria uma cópia no diretório público para garantir acesso
+                $publicPath = public_path('storage/artigos');
+                if (!file_exists($publicPath)) {
+                    mkdir($publicPath, 0755, true);
+                }
+                copy($storagePath . '/' . $imageName, $publicPath . '/' . $imageName);
+                
+                return response()->json([
+                    'success' => true,
+                    'url' => asset('storage/artigos/' . $imageName)
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Não foi possível fazer upload da imagem'
+                ], 500);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -230,7 +285,7 @@ class ArtigoController extends Controller
 
         $artigo = Artigo::findOrFail($id);
 
-        // Verificar se o usuário logado é o dono do artigo
+        // Verificar se o utilizador autenticado é o dono do artigo
         if (auth()->id() !== $artigo->user_id) {
             return redirect()->back()->with('error', 'Não tens permissão para editar este artigo.');
         }
@@ -285,7 +340,7 @@ class ArtigoController extends Controller
                 \Log::error('Exception during image update: ' . $e->getMessage());
             }
         } else if ($request->has('remove_image') || ($artigo->imagem === null)) {
-            // Se o usuário solicitou a remoção da imagem ou se não há imagem, atribua uma genérica
+            // Se o utilizador solicitou a remoção da imagem ou se não há imagem, atribua uma genérica
             // Se a requisição tem 'remove_image' ou se o artigo não tem imagem atualmente
             
             // Remove a imagem atual se existir

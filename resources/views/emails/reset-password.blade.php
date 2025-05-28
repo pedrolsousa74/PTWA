@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Recuperação de Senha</title>
+    <title>Recuperação de Palavra-passe</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,16 +44,16 @@
     <div class="logo">POST-IT</div>
     
     <div class="content">
-        <h2>Recuperação de Senha</h2>
-        <p>Você está recebendo este e-mail porque recebemos uma solicitação de redefinição de senha para sua conta.</p>
+        <h2>Recuperação de Palavra-passe</h2>
+        <p>Está a receber este e-mail porque recebemos um pedido de redefinição de palavra-passe para a sua conta.</p>
         
-        <p>Clique no botão abaixo para redefinir sua senha:</p>
+        <p>Clique no botão abaixo para redefinir a sua palavra-passe:</p>
         
-        <a href="{{ route('password.reset', ['token' => $token, 'email' => $email]) }}" class="button">Redefinir Senha</a>
+        <a href="{{ route('password.reset', ['token' => $token, 'email' => $email]) }}" class="button">Redefinir Palavra-passe</a>
         
-        <p>Este link de redefinição de senha expirará em 60 minutos.</p>
+        <p>Este link de redefinição de palavra-passe expirará em 60 minutos.</p>
         
-        <p>Se você não solicitou uma redefinição de senha, nenhuma ação adicional é necessária.</p>
+        <p>Se não solicitou uma redefinição de palavra-passe, nenhuma ação adicional é necessária.</p>
     </div>
     
     <div class="footer">

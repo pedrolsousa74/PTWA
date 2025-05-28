@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('artigo_id')->constrained()->onDelete('cascade');
             $table->timestamps();
 
-            // Garante que um usuário só pode curtir um artigo uma vez
+            // Garante que um utilizador só pode gostar de um artigo uma vez
             $table->unique(['user_id', 'artigo_id']);
         });
     }

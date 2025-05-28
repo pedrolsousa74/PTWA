@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \App\Console\Commands\CreateAdminUser::class
+        \App\Console\Commands\CreateAdminUser::class,
+        \App\Console\Commands\TestPasswordReset::class,
+        \App\Console\Commands\CheckPasswordResetTable::class
     ];
 
     /**

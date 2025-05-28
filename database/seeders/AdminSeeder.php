@@ -37,7 +37,7 @@ class AdminSeeder extends Seeder
         if ($adminUser && $adminUser->is_admin) {
             echo "Confirmado: Utilizador admin existe e tem permissões de administrador.\n";
         } else {
-            echo "ATENÇÃO: Problemas ao criar ou atualizar o usuário admin!\n";
+            echo "ATENÇÃO: Problemas ao criar ou atualizar o utilizador admin!\n";
         }
     }
 }

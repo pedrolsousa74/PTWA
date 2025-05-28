@@ -140,7 +140,7 @@ class ManageGenericImagesCommand extends Command
             return;
         }
         
-        // Lista as imagens para o usuário escolher
+        // Lista as imagens para o utilizador escolher
         $images = File::files(public_path('Icones'));
         $imageOptions = [];
         

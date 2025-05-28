@@ -103,17 +103,17 @@ if (Schema::hasTable('users') && Schema::hasColumn('users', 'is_admin')) {
                 <p>Este comando irá criar um utilizador administrador com as seguintes credenciais:</p>
                 <ul>
                     <li><strong>Email:</strong> admin@postit.com</li>
-                    <li><strong>Senha:</strong> admin123</li>
+                    <li><strong>Palavra-passe:</strong> admin123</li>
                 </ul>
-                <p>Você também pode especificar um email e senha diferentes:</p>
-                <div class="terminal">php artisan admin:create seuemail@exemplo.com suasenha</div>
+                <p>Também pode especificar um email e palavra-passe diferentes:</p>
+                <div class="terminal">php artisan admin:create teuemail@exemplo.com tuapalavrapasse</div>
                 <p>Depois de criar o administrador, atualize esta página.</p>
             </div>
         @else
             <div class="success">
                 <h2>Administrador Configurado</h2>                <p>Um utilizador administrador já existe no sistema.</p>
-                <p>Use as credenciais do administrador para aceder ao painel administrativo. Se esqueceu a senha, pode redefini-la usando o comando:</p>
-                <div class="terminal">php artisan admin:create admin@postit.com novasenha</div>
+                <p>Use as credenciais do administrador para aceder ao painel administrativo. Se esqueceu a palavra-passe, pode redefini-la usando o comando:</p>
+                <div class="terminal">php artisan admin:create admin@postit.com novapalavrapasse</div>
             </div>
         @endif
 
@@ -128,7 +128,7 @@ if (Schema::hasTable('users') && Schema::hasColumn('users', 'is_admin')) {
 
         <div class="step">
             <h3>Permissões de Administrador</h3>
-            <p>Como administrador, você pode:</p>
+            <p>Como administrador, podes:</p>
             <ul>
                 <li>Eliminar qualquer artigo publicado no site</li>                <li>Gerir utilizadores e suas permissões</li>
                 <li>Promover outros utilizadores a administradores</li>

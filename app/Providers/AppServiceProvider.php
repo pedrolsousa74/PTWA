@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Configurar o broker de redefinição de senha
+        // Configurar o broker de redefinição de palavra-passe
         $this->app->singleton('auth.password', function ($app) {
             return new PasswordBrokerManager($app);
         });
