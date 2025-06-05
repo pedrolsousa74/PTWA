@@ -131,9 +131,6 @@
                         <i class="fas fa-align-right"></i>
                     </button>
                     <div class="w-px h-6 bg-gray-300 mx-1 self-center"></div>
-                    <button type="button" onclick="execCmd('insertImage', prompt('Insira o URL da imagem:'))" class="editor-btn" title="Inserir imagem">
-                        <i class="fas fa-image"></i>
-                    </button>
                 </div>
                 
                 <div id="editor"
@@ -208,6 +205,12 @@
 <script>
     // Funções do editor
     function execCmd(command, value = null) {
+        // Impede a inserção de imagens no editor
+        if (command === 'insertImage') {
+            alert('A inserção de imagens no conteúdo do artigo não é permitida.');
+            return;
+        }
+        
         document.execCommand(command, false, value);
         
         // Destaca botões ativos
@@ -222,7 +225,9 @@
     }
 
     // Monitor do estado do editor para ativar/desativar botões
-    document.getElementById('editor').addEventListener('keyup', function() {
+    const editor = document.getElementById('editor');
+    
+    editor.addEventListener('keyup', function() {
         ['bold', 'italic', 'underline'].forEach(cmd => {
             const button = document.querySelector(`[onclick="execCmd('${cmd}')"]`);
             if (document.queryCommandState(cmd)) {
@@ -231,6 +236,16 @@
                 button.classList.remove('active');
             }
         });
+    });
+    
+    // Impedir colar imagens no editor
+    editor.addEventListener('paste', function(e) {
+        // Prevenir cola direta para o editor
+        e.preventDefault();
+        
+        // Apenas permitir texto puro
+        const text = e.clipboardData.getData('text/plain');
+        document.execCommand('insertText', false, text);
     });
 
     // Mostra o nome do ficheiro selecionado e gerencia a opção "remover imagem"

@@ -16,7 +16,6 @@ Route::get('/', function () {
 Route::get('/artigos', [ArtigoController::class, 'index'])->name('artigos');
 Route::get('/artigos/{id}', [ArtigoController::class, 'show'])->name('artigos.show');
 Route::post('/artigos', [ArtigoController::class, 'store'])->middleware('auth')->name('artigos.store');
-Route::post('/upload-image-editor', [ArtigoController::class, 'uploadEditorImage'])->middleware('auth');
 
 // Publicar artigo
 Route::get('/escrever', function () {
@@ -61,8 +60,6 @@ Route::get('/sobre', function () {
     return view('sobre');
 })->name('sobre');
 
-Route::post('/artigos/{id}/like', [ArtigoController::class, 'like'])->name('artigos.like');
-
 Route::get('/', [ArtigoController::class, 'homepage'])->name('home');
 
 Route::post('/artigos/{id}/like', [ArtigoController::class, 'like'])->name('artigos.like')->middleware('auth');
@@ -97,10 +94,6 @@ Route::get('/admin/check', function() {
 Route::get('/admin-test', function() {
     return view('admin.dashboard');
 })->middleware(['auth', \App\Http\Middleware\AdminMiddleware::class]);
-
-// Rota de teste para ver emails de recuperação de password
-Route::get('/test/emails', [App\Http\Controllers\TestController::class, 'mostrarEmailsLog'])
-    ->name('test.emails');
 
 // Rotas de administração
 Route::prefix('admin')->middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(function () {

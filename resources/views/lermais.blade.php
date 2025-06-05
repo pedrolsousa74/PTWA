@@ -77,6 +77,26 @@
                         {!! $artigo->conteudo !!}
                     </div>
                     
+                    <!-- Botão de Like -->
+                    <div class="flex justify-center mt-8 mb-4">
+                        @auth
+                            <form action="{{ route('artigos.like', $artigo->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="flex items-center gap-2 {{ $artigo->usersWhoLiked->contains(auth()->user()) ? 'bg-pink-600' : 'bg-gray-200 hover:bg-pink-100' }} text-{{ $artigo->usersWhoLiked->contains(auth()->user()) ? 'white' : 'gray-800' }} px-6 py-3 rounded-full transition-all shadow-sm">
+                                    <i class="fas fa-heart {{ $artigo->usersWhoLiked->contains(auth()->user()) ? 'text-white' : 'text-pink-500' }}"></i>
+                                    <span>{{ $artigo->usersWhoLiked->contains(auth()->user()) ? 'Já gostei' : 'Gosto deste artigo' }}</span>
+                                    <span class="ml-1 font-bold">({{ $artigo->usersWhoLiked->count() }})</span>
+                                </button>
+                            </form>
+                        @else
+                            <div class="flex items-center gap-2 bg-gray-100 px-6 py-3 rounded-full">
+                                <i class="fas fa-heart text-pink-400"></i>
+                                <span class="text-gray-600">{{ $artigo->usersWhoLiked->count() }} pessoas gostam deste artigo</span>
+                                <a href="{{ route('login') }}" class="ml-2 text-purple-600 hover:underline">Entrar para gostar</a>
+                            </div>
+                        @endauth
+                    </div>
+                    
                     <!-- Separação visual com margem e linha -->
                     <h3 class="font-semibold mt-10 pt-4 border-t border-gray-200">Comentários ({{ $artigo->comentarios->count() }}):</h3>
 
